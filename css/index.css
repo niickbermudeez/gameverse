@@ -1,0 +1,134 @@
+@font-face {
+    font-family: 'GoodDog';
+    src: url(./fonts/good_dog/GOODDP__.TTF) format('truetype');
+}
+
+@font-face {
+    font-family: 'HelveticaNow';
+    src: url(./fonts/helvetica-now-font-family-1727953346-0/helveticanowtext-black-demo.ttf) format('truetype');
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: #E5E5E5;
+    overflow: hidden;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo img {
+    height: 3rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #E5E5E5;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #FFD700;
+}
+
+.welcome-message{
+    display: flex;
+    align-items: center;
+}
+
+.auth-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.auth-links a {
+    text-decoration: none;
+    color: #E5E5E5;
+    font-weight: bold;
+    background: #1B1E56;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.auth-links a:hover {
+    background: linear-gradient(90deg, #F72585, #4361EE); /* Gradiente en el hover */
+    color: #E5E5E5; /* Texto claro para contrastar */
+}
+
+.search-bar-wrapper {
+    background: linear-gradient(90deg, #F72585, #4361EE); /* Gradiente del borde */
+    border-radius: 25px; /* Bordes redondeados */
+    padding: 3px; /* Espaciado para mostrar el gradiente */
+    display: inline-block; /* Ajusta al tamaño del contenido */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #1B1E56; /* Fondo del buscador */
+    border-radius: 25px; /* Bordes redondeados */
+    padding: 0.5rem; /* Espaciado interno */
+    width: 400px; /* Ancho del buscador */
+    max-width: 90%; /* Para pantallas pequeñas */
+}
+
+.search-bar input {
+    flex: 1; /* Para que el campo ocupe el máximo espacio disponible */
+    border: none; /* Sin borde adicional */
+    outline: none; /* Sin borde al enfocar */
+    background-color: transparent; /* Fondo transparente */
+    color: #E5E5E5; /* Color del texto */
+    font-size: 1rem;
+}
+
+.search-bar input::placeholder {
+    color: #A9A9A9; /* Color del texto del placeholder */
+}
+
+.search-bar button {
+    background-color: #1B1E56;
+    border: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 50%; /* Botón redondo */
+    cursor: pointer;
+    color: #1B1E56;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background: linear-gradient(90deg, #F72585, #4361EE); /* Gradiente al pasar el cursor */
+    color: #E5E5E5; /* Texto claro */
+}

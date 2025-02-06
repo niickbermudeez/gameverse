@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: #E5E5E5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem; 
+    box-sizing: border-box;
+}
+
+.login-form-container {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 2rem 2rem; 
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+    margin: 2rem auto;
+}
+
+.login-form-container h1 {
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-family: 'HelveticaNow', sans-serif;
+}
+
+/* Input Groups */
+.login-form .input-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.login-form .input-group label {
+    display: block;
+    font-weight: bold;
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.login-form .input-group input {
+    width: 100%;
+    min-height: 2rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #1B1E56;
+    color: #E5E5E5;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form .input-group input:focus {
+    border-color: #F72585;
+    box-shadow: 0 0 5px rgba(247, 37, 133, 0.8);
+}
+
+/* Button */
+.login-form button {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    border: none;
+    border-radius: 10px;
+    color: #E5E5E5;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, color 0.3s ease;
+}
+
+.login-form button:hover {
+    background: linear-gradient(90deg, #4361EE, #F72585);
+    color: #FFD700; 
+    transform: scale(1.05);
+}
+
+.login-form .input-group input::placeholder {
+    color: #FFFFFF; 
+    font-size: 0.8rem; 
+    font-style: italic; 
+}
+
+/* Redirect Text */
+.redirect {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.redirect a {
+    color: #F72585;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.redirect a:hover {
+    color: #4361EE;
+}
+
+/* Animación */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+    
