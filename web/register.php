@@ -24,11 +24,11 @@
             <form action="./../php/register.php" method="POST" class="register-form">
                 <div class="input-group">
                     <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" name="first_name" placeholder="Enter your first name" required>
+                    <input type="text" id="first-name" name="first_name" placeholder="Enter your First Name" required>
                 </div>
                 <div class="input-group">
                     <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" placeholder="Enter your last name" required>
+                    <input type="text" id="last-name" name="last_name" placeholder="Enter your Last Name" required>
                 </div>
                 <div class="input-group">
                     <label for="age">Age</label>
@@ -40,24 +40,24 @@
                 </div>
                 <div class="input-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <input type="email" id="email" name="email" placeholder="Enter your Email" required>
                 </div>
                 <div class="input-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                    <input type="text" id="username" name="username" placeholder="Choose a Username" required>
                 </div>
                 
                 <!-- Password con emoticono -->
                 <div class="input-group password-container">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter a password" required>
+                    <input type="password" id="password" name="password" placeholder="Enter a Password" required>
                     <span id="toggle-password" class="eye-button">👁️</span>
                 </div>
 
                 <!-- Confirm Password con emoticono -->
                 <div class="input-group password-container">
                     <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Re-enter your password" required>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Re-enter your Password" required>
                     <span id="toggle-confirm-password" class="eye-button">👁️</span>
                 </div>
 
