@@ -14,6 +14,13 @@
         </div>
         <section class="register-form-container">
             <h1>Create Your Account</h1>
+
+            <?php if (isset($_POST['error'])): ?>
+                <div class="error-message">
+                    <p><?php echo htmlspecialchars($_POST['error']); ?></p>
+                </div>
+            <?php endif; ?>
+
             <form action="./../php/register.php" method="POST" class="register-form">
                 <div class="input-group">
                     <label for="first-name">First Name</label>
@@ -39,17 +46,26 @@
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Choose a username" required>
                 </div>
-                <div class="input-group">
+                
+                <!-- Password con emoticono -->
+                <div class="input-group password-container">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter a password" required>
+                    <span id="toggle-password" class="eye-button">👁️</span>
                 </div>
-                <div class="input-group">
+
+                <!-- Confirm Password con emoticono -->
+                <div class="input-group password-container">
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" id="confirm-password" name="confirm_password" placeholder="Re-enter your password" required>
+                    <span id="toggle-confirm-password" class="eye-button">👁️</span>
                 </div>
+
                 <button type="submit">Register</button>
             </form>
         </section>
     </main>
+
+    <script src="./../js/register.js"></script>
 </body>
 </html>
