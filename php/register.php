@@ -2,7 +2,6 @@
 session_start();
 include 'config.php'; 
 
-// Verificar si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
@@ -13,40 +12,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Expresión regular para validar la contraseña
-    $password_regex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,@$!%*?&])[A-Za-z\d.,@$!%*?&]{8,}$/';
-
-    // Variables para errores
-    $error = '';
-
-    if (!preg_match($password_regex, $password)) {
-        $error = "Password must be at least 8 characters long, include uppercase, lowercase, numbers, and special characters.";
-    } elseif ($password !== $confirm_password) {
-        $error = "Passwords do not match.";
-    }
-
-    if (!empty($error)) {
-        header("Location: ./../web/register.php?error=" . urlencode($error));
+    // Validación en PHP como respaldo (por si alguien desactiva JavaScript)
+    if ($password !== $confirm_password) {
+        header("Location: ./../web/register.html?error=" . urlencode("Passwords do not match."));
         exit();
     }
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $active = 0;
 
-    $sql = "INSERT INTO users (first_name, last_name, age, country, email, username, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users (first_name, last_name, age, country, email, username, password, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
     if (!$stmt) {
-        header("Location: ./../web/register.php?error=Database error");
+        header("Location: ./../web/register.html?error=Database error");
         exit();
     }
 
-    $stmt->bind_param("ssissss", $first_name, $last_name, $age, $country, $email, $username, $hashed_password);
+    $stmt->bind_param("ssissssi", $first_name, $last_name, $age, $country, $email, $username, $hashed_password, $active);
 
     if ($stmt->execute()) {
         header("Location: ./../web/login.html?success=Registered successfully! Please log in.");
         exit();
     } else {
-        header("Location: ./../web/register.php?error=Registration failed. Try again.");
+        header("Location: ./../web/register.html?error=Registration failed. Try again.");
         exit();
     }
 

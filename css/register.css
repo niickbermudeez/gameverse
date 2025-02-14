@@ -66,7 +66,7 @@ body {
     min-height: 2.5rem;
     border-radius: 8px;
     border: 1px solid #F72585;
-    background-color: rgba(27, 30, 86, 0.8); 
+    background-color: rgba(27, 30, 86, 0.8);
     color: #E5E5E5;
     font-size: 0.95rem;
     outline: none;
@@ -86,40 +86,44 @@ body {
 }
 
 .password-container input {
-    padding-right: 40px !important;
+    padding-right: 40px; /* Espacio para el ícono del ojo */
+    width: 100%;
+    min-height: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #F72585;
+    background-color: rgba(27, 30, 86, 0.8);
+    color: #E5E5E5;
+    font-size: 0.95rem;
+    outline: none;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
 }
 
 .eye-button {
     position: absolute;
-    left: 370px;
-    top: 65%;
-    transform: translateY(-50%);
+    right: 10px; /* Ajusta la posición horizontal */
+    top: 55%; /* Ajusta la posición vertical */
+    transform: translateY(-50%); /* Centra verticalmente */
     font-size: 1rem;
     color: #E5E5E5;
     transition: color 0.3s ease;
-    padding: 0;
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    z-index: 2; 
 }
 
 .eye-button:hover {
     color: #FFD700;
 }
 
-#toggle-password, #toggle-confirm-password {
-    font-size: 1rem;
-    color: #E5E5E5;
-    padding: 0; 
-    background: none; 
-    border: none; 
-    outline: none;
-}
 
-#toggle-password:hover, #toggle-confirm-password:hover {
-    color: #FFD700;
-}
+
 
 .register-form button {
-    width: 100%; 
+    width: 100%;
     max-width: 350px;
     padding: 0.8rem;
     background: linear-gradient(90deg, #F72585, #4361EE);
@@ -141,4 +145,73 @@ body {
     background: linear-gradient(90deg, #4361EE, #F72585);
     color: #FFD700;
     transform: scale(1.05);
+}
+
+.redirect {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.redirect a {
+    color: #F72585;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.redirect a:hover {
+    color: #4361EE;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 🔥 Estilos mejorados para los mensajes de error */
+.error-message {
+    color: #FF4B4B;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-top: 5px;
+    text-align: left;
+    background: rgba(255, 75, 75, 0.2);
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: none; /* Oculto por defecto */
+    position: relative;
+    animation: fadeInError 0.3s ease-in-out;
+}
+
+.error-message::before {
+    content: "⚠️ ";
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+@keyframes fadeInError {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para los campos con error */
+.register-form .input-group input.error {
+    border-color: #FF4B4B;
+    background-color: rgba(255, 75, 75, 0.2);
+}
+
+.register-form .input-group input:focus.error {
+    border-color: #FF4B4B;
+    box-shadow: 0 0 8px rgba(255, 75, 75, 0.8);
 }
