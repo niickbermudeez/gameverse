@@ -1,0 +1,28 @@
+.activation-container {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.activation-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.activation-container p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+a {
+    text-decoration: none;
+    color: #0066cc;
+    font-weight: bold;
+}

@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $login_input = $_POST['username']; 
     $password = $_POST['password'];
 
-    $sql = "SELECT id, username, password FROM users WHERE username = ? OR email = ?";
+    $sql = "SELECT id, username, password, active FROM users WHERE username = ? OR email = ?";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         header("Location: ./../web/login.html?error=Database error");
@@ -18,8 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $username, $hashed_password);
+        $stmt->bind_result($id, $username, $hashed_password, $active);
         $stmt->fetch();
+
+        if ($active == 0) {
+            header("Location: ./../web/login.html?error=Account not activated. Please check your email.");
+            exit();
+        }
 
         if (password_verify($password, $hashed_password)) {
             $_SESSION["user_id"] = $id;
@@ -35,13 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header("Location: ./../index.php?success=Login successful! Welcome, $username");
             exit();
-        } else 
-        {
+        } else {
             header("Location: ./../web/login.html?error=Incorrect password");
             exit();
         }
-    } else 
-    {
+    } else {
         header("Location: ./../web/login.html?error=User not found");
         exit();
     }

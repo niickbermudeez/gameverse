@@ -86,7 +86,7 @@ body {
 }
 
 .password-container input {
-    padding-right: 40px; /* Espacio para el ícono del ojo */
+    padding-right: 40px; 
     width: 100%;
     min-height: 2.5rem;
     border-radius: 8px;
@@ -102,9 +102,9 @@ body {
 
 .eye-button {
     position: absolute;
-    right: 10px; /* Ajusta la posición horizontal */
-    top: 55%; /* Ajusta la posición vertical */
-    transform: translateY(-50%); /* Centra verticalmente */
+    right: 10px; 
+    top: 55%; 
+    transform: translateY(-50%);
     font-size: 1rem;
     color: #E5E5E5;
     transition: color 0.3s ease;
@@ -173,7 +173,6 @@ body {
     }
 }
 
-/* 🔥 Estilos mejorados para los mensajes de error */
 .error-message {
     color: #FF4B4B;
     font-size: 0.85rem;
@@ -183,7 +182,7 @@ body {
     background: rgba(255, 75, 75, 0.2);
     padding: 5px 10px;
     border-radius: 5px;
-    display: none; /* Oculto por defecto */
+    display: none; 
     position: relative;
     animation: fadeInError 0.3s ease-in-out;
 }
@@ -204,8 +203,6 @@ body {
         transform: translateY(0);
     }
 }
-
-/* Estilos para los campos con error */
 .register-form .input-group input.error {
     border-color: #FF4B4B;
     background-color: rgba(255, 75, 75, 0.2);

@@ -78,39 +78,39 @@ nav {
 }
 
 .auth-links a:hover {
-    background: linear-gradient(90deg, #F72585, #4361EE); /* Gradiente en el hover */
-    color: #E5E5E5; /* Texto claro para contrastar */
+    background: linear-gradient(90deg, #F72585, #4361EE); 
+    color: #E5E5E5; 
 }
 
 .search-bar-wrapper {
-    background: linear-gradient(90deg, #F72585, #4361EE); /* Gradiente del borde */
-    border-radius: 25px; /* Bordes redondeados */
-    padding: 3px; /* Espaciado para mostrar el gradiente */
-    display: inline-block; /* Ajusta al tamaño del contenido */
+    background: linear-gradient(90deg, #F72585, #4361EE); 
+    border-radius: 25px; 
+    padding: 3px; 
+    display: inline-block; 
 }
 
 .search-bar {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #1B1E56; /* Fondo del buscador */
-    border-radius: 25px; /* Bordes redondeados */
-    padding: 0.5rem; /* Espaciado interno */
-    width: 400px; /* Ancho del buscador */
-    max-width: 90%; /* Para pantallas pequeñas */
+    background-color: #1B1E56; 
+    border-radius: 25px; 
+    padding: 0.5rem; 
+    width: 400px; 
+    max-width: 90%; 
 }
 
 .search-bar input {
-    flex: 1; /* Para que el campo ocupe el máximo espacio disponible */
-    border: none; /* Sin borde adicional */
-    outline: none; /* Sin borde al enfocar */
-    background-color: transparent; /* Fondo transparente */
-    color: #E5E5E5; /* Color del texto */
+    flex: 1; 
+    border: none; 
+    outline: none;
+    background-color: transparent; 
+    color: #E5E5E5; 
     font-size: 1rem;
 }
 
 .search-bar input::placeholder {
-    color: #A9A9A9; /* Color del texto del placeholder */
+    color: #A9A9A9; 
 }
 
 .search-bar button {
@@ -118,7 +118,7 @@ nav {
     border: none;
     padding: 0.5rem;
     font-size: 1rem;
-    border-radius: 50%; /* Botón redondo */
+    border-radius: 50%; 
     cursor: pointer;
     color: #1B1E56;
     font-weight: bold;
@@ -129,6 +129,6 @@ nav {
 }
 
 .search-bar button:hover {
-    background: linear-gradient(90deg, #F72585, #4361EE); /* Gradiente al pasar el cursor */
-    color: #E5E5E5; /* Texto claro */
+    background: linear-gradient(90deg, #F72585, #4361EE); 
+    color: #E5E5E5; 
 }
