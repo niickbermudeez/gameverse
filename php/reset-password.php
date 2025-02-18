@@ -2,10 +2,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require './../php/db.php';
-require './../php/PHPMailer/src/Exception.php';
-require './../php/PHPMailer/src/PHPMailer.php';
-require './../php/PHPMailer/src/SMTP.php';
+require './config.php';
+require './../vendor/PHPMailer/PHPMailer/src/Exception.php';
+require './../vendor/PHPMailer/PHPMailer/src/PHPMailer.php';
+require './../vendor/PHPMailer/PHPMailer/src/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
@@ -41,15 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true;
-        $mail->Username = 'tuemail@gmail.com';
-        $mail->Password = 'tucontraseña'; 
+        $mail->Username = 'nick.bermudeze@educem.net';
+        $mail->Password = 'zqfx kfdq veiz hniy'; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->setFrom('tuemail@gmail.com', 'Gameverse');
+        $mail->setFrom('iker@chumeus.com', 'Gameverse');
         $mail->addAddress($email);
 
-        $resetLink = "http://yourdomain.com/reset-form.php?code=$resetCode&email=" . urlencode($email);
+        $resetLink = "http://localhost/gameverse/php/reset-form.php?code=$resetCode&email=" . urlencode($email);
         $mail->Subject = "Reset Your Password - Gameverse";
         $mail->Body = "Click the link below to reset your password:\n\n$resetLink\n\nThis link expires in 1 hour.";
         $mail->send();
