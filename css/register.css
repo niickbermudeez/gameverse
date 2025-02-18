@@ -182,6 +182,7 @@ body {
     background: rgba(255, 75, 75, 0.2);
     padding: 5px 10px;
     border-radius: 5px;
+    min-height: 3em;
     display: none; 
     position: relative;
     animation: fadeInError 0.3s ease-in-out;

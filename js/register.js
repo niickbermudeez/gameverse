@@ -102,22 +102,28 @@ document.addEventListener("DOMContentLoaded", function () {
     passwordInput.addEventListener("input", function () {
         if (!passwordRegex.test(passwordInput.value)) {
             showError(passwordInput, "Password must be at least 8 characters, include uppercase, lowercase, numbers, and special characters.");
+            document.getElementById("toggle-password").style.top="35%";
         } else {
             clearError(passwordInput);
+            document.getElementById("toggle-password").style.top="65%";
         }
 
         if (confirmPasswordInput.value !== "" && passwordInput.value !== confirmPasswordInput.value) {
-            showError(confirmPasswordInput, "Passwords do not match.");
+            showError(confirmPasswordInput, "Passwords do not match. Check them both to solve the differences.");
+            document.getElementById("toggle-confirm-password").style.top="35%";
         } else {
             clearError(confirmPasswordInput);
+            document.getElementById("toggle-confirm-password").style.top="65%";
         }
     });
 
     confirmPasswordInput.addEventListener("input", function () {
         if (passwordInput.value !== confirmPasswordInput.value) {
-            showError(confirmPasswordInput, "Passwords do not match.");
+            showError(confirmPasswordInput, "Passwords do not match. Check them both to solve the differences.");
+            document.getElementById("toggle-confirm-password").style.top="35%";
         } else {
             clearError(confirmPasswordInput);
+            document.getElementById("toggle-confirm-password").style.top="65%";
         }
     });
 
@@ -151,10 +157,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!passwordRegex.test(passwordInput.value)) {
             showError(passwordInput, "Password must be at least 8 characters, include uppercase, lowercase, numbers, and special characters.");
             hasError = true;
+            document.getElementById("toggle-password").style.top="35%";
         }
         if (passwordInput.value !== confirmPasswordInput.value) {
-            showError(confirmPasswordInput, "Passwords do not match.");
+            showError(confirmPasswordInput, "Passwords do not match. Check them both to solve the differences.");
             hasError = true;
+            document.getElementById("toggle-confirm-password").style.top="35%";
         }
 
         if (hasError) {
