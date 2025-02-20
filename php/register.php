@@ -7,7 +7,8 @@ require './../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+{
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
     $age = $_POST['age'];
@@ -17,7 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    if ($password !== $confirm_password) {
+    if ($password !== $confirm_password) 
+    {
         header("Location: ./../web/register.html?error=" . urlencode("Passwords do not match."));
         exit();
     }
@@ -30,19 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
-    if (!$stmt) {
+    if (!$stmt) 
+    {
         header("Location: ./../web/register.html?error=Database error");
         exit();
     }
 
     $stmt->bind_param("ssissssis", $first_name, $last_name, $age, $country, $email, $username, $hashed_password, $active, $activationCode);
 
-    if ($stmt->execute()) {
+    if ($stmt->execute()) 
+    {
         $activationUrl = "http://localhost/gameverse/php/mailCheckAccount.php?code=$activationCode&mail=$email";
 
         $mail = new PHPMailer(true);
 
-        try {
+        try 
+        {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; 
             $mail->SMTPAuth = true;
@@ -65,11 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->send();
             header("Location: ./../web/login.html?success=Registered successfully! Please check your email.");
             exit();
-        } catch (Exception $e) {
+        } catch (Exception $e) 
+        {
             header("Location: ./../web/register.html?error=Mail error: {$mail->ErrorInfo}");
             exit();
         }
-    } else {
+    } else 
+    {
         header("Location: ./../web/register.html?error=Registration failed. Try again.");
         exit();
     }
