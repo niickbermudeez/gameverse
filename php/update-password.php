@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("si", $newPassword, $user_id);
 
     if ($stmt->execute()) {
-        echo "Your password has been updated. <a href='./../web/login.html'>Login here</a>";
+        echo "Your password has been updated. <a href='./../php/login.php'>Login here</a>";
     } else {
         echo "Error updating password.";
     }

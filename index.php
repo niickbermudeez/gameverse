@@ -4,7 +4,7 @@ $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
 
 if (!$isLoggedIn) {
-    header("Location: ./web/login.html");
+    header("Location: ./php/login.php");
     exit();
 }
 
@@ -34,8 +34,8 @@ if (!$isLoggedIn) {
                     <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
                     <a href="?logout=true">Logout</a>
                 <?php else: ?>
-                    <a href="./web/register.html">Register</a>
-                    <a href="./web/login.html">Login</a>
+                    <a href="./php/register.php">Register</a>
+                    <a href="./php/login.php">Login</a>
                 <?php endif; ?>
             </div>
         </nav>
