@@ -4,7 +4,7 @@ $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
 
 if (!$isLoggedIn) {
-    header("Location: ./php/login.php");
+    header("Location: ./web/login.html");
     exit();
 }
 
