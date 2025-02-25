@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit">Send Reset Link</button>
             </form>
             <p class="redirect">
-                Remembered your password? <a href="./../php/login.php">Login here</a>
+                Remembered your password? <a href="./../web/login.html">Login here</a>
             </p>
         </section>
     </main>

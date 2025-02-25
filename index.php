@@ -1,17 +1,40 @@
 <?php
 session_start();
+require './php/config.php'; // Si está dentro de una carpeta llamada 'php'
+
+
 $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
+$profileImage = "default.png"; // Imagen por defecto
+
+if ($isLoggedIn) {
+    $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
+    $stmt->bind_param("i", $_SESSION["user_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $userData = $result->fetch_assoc();
+    
+    if (!empty($userData["profile_image"])) {
+        $profileImage = $userData["profile_image"];
+    }
+}
+
+// Manejo de cierre de sesión
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header('Location: index.php');
+    exit();
+}
 
 if (!$isLoggedIn) {
     header("Location: ./web/login.html");
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">    
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +54,9 @@ if (!$isLoggedIn) {
             </form>
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
+                    <img src="<?php echo $profileImage; ?>" width="40" style="border-radius: 50%;" alt="Perfil">
                     <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
+                    <a href="./php/profile.php">Editar Perfil</a>
                     <a href="?logout=true">Logout</a>
                 <?php else: ?>
                     <a href="./php/register.php">Register</a>
@@ -40,14 +65,6 @@ if (!$isLoggedIn) {
             </div>
         </nav>
     </header>
-
-    <?php
-    if (isset($_GET['logout'])) {
-        session_unset(); 
-        session_destroy(); 
-        header('Location: index.php'); 
-        exit();
-    }
-    ?>
 </body>
 </html>
+
