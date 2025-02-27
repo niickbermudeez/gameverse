@@ -1,6 +1,9 @@
 <?php
 require './config.php';
 
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
 $message = "";
 
 if (!isset($_GET['code']) || !isset($_GET['email'])) {
@@ -28,7 +31,7 @@ if (!isset($_GET['code']) || !isset($_GET['email'])) {
             $stmt->bind_param("si", $newPassword, $user_id);
 
             if ($stmt->execute()) {
-                $message = "Your password has been updated. <a href='./../web/login.html'>Login here</a>";
+                $message = "Your password has been updated. <a href='./../php/login.php'>Login here</a>";
             } else {
                 $message = "Error updating password.";
             }
