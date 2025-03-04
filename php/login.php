@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     } else {
-        header("Location: ./../php/login.php?error=User not found");
-        exit();
+            header("Location: ./../php/login.php?error=User not found");
+            exit();
     }
 
     $stmt->close();
