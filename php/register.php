@@ -7,10 +7,11 @@ require './../vendor/autoload.php';
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
+{
     $first_name       = $_POST['first_name'];
     $last_name        = $_POST['last_name'];
-    $age              = $_POST['age'];
+    $birth_date       = $_POST['birth_date']; 
     $country          = $_POST['country'];
     $email            = $_POST['email'];
     $username         = $_POST['username'];
@@ -26,16 +27,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $activationCode  = hash("sha256", random_bytes(32));
     $active          = 0;
 
-    $sql = "INSERT INTO users (first_name, last_name, age, country, email, username, password, active, activationCode)
+    $sql = "INSERT INTO users (first_name, last_name, birth_date, country, email, username, password, active, activationCode)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
-    if (! $stmt) {
+    if (!$stmt) {
         header("Location: ./../web/register.html?error=Database error");
         exit();
     }
 
-    $stmt->bind_param("ssissssis", $first_name, $last_name, $age, $country, $email, $username, $hashed_password, $active, $activationCode);
+    $stmt->bind_param("sssssssis", $first_name, $last_name, $birth_date, $country, $email, $username, $hashed_password, $active, $activationCode);
 
     if ($stmt->execute()) {
         $activationUrl = "http://localhost/gameverse/php/mailCheckAccount.php?code=$activationCode&mail=$email";
@@ -44,8 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->CharSet  = 'UTF-8';
         $mail->Encoding = 'base64';
 
-        try
-        {
+        try {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
@@ -60,24 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isHTML(true);
             $mail->Subject = '✅ Verify Your Email - Gameverse';
             $mail->Body    = "
-    <div style='background-color: #0D0D2B; padding: 20px; text-align: center; color: #E5E5E5; font-family: Arial, sans-serif;'>
-        <div style='max-width: 600px; margin: auto; background-color: #1B1E56; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);'>
-            <h1 style='background: linear-gradient(90deg, #F72585, #4361EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
-                Verify Your Email ✅
-            </h1>
-            <p style='font-size: 16px;'>Hey <strong>$username</strong>,</p>
-            <p style='font-size: 16px; line-height: 1.5;'>Thank you for signing up at Gameverse! Please verify your email address by clicking the button below.</p>
-            <a href='$activationUrl'
-               style='display: inline-block; margin: 20px auto; padding: 15px 25px; font-size: 18px; color: #fff; background: linear-gradient(90deg, #F72585, #4361EE);
-               text-decoration: none; border-radius: 5px; font-weight: bold;'>
-               ✅ Verify Your Email
-            </a>
-            <p style='font-size: 14px; margin-top: 20px;'>If you didn't sign up for Gameverse, please ignore this email.</p>
-            <hr style='border: 1px solid #4361EE; margin: 20px 0;'>
-            <p style='font-size: 12px; color: #aaa;'>Gameverse &copy; " . date('Y') . ". All Rights Reserved.</p>
-        </div>
-    </div>
-";
+                <div style='background-color: #0D0D2B; padding: 20px; text-align: center; color: #E5E5E5; font-family: Arial, sans-serif;'>
+                    <h1>Verify Your Email ✅</h1>
+                    <p>Hey <strong>$username</strong>,</p>
+                    <p>Thank you for signing up at Gameverse! Please verify your email by clicking the button below.</p>
+                    <a href='$activationUrl' style='display: inline-block; padding: 15px 25px; background: #F72585; color: #fff; text-decoration: none; border-radius: 5px;'>✅ Verify Your Email</a>
+                    <p>If you didn't sign up for Gameverse, please ignore this email.</p>
+                </div>
+            ";
 
             $mail->send();
             header("Location: ./../web/login.html?success=Registered successfully! Please check your email.");

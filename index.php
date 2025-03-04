@@ -1,11 +1,10 @@
 <?php
 session_start();
-require './php/config.php'; // Si está dentro de una carpeta llamada 'php'
-
+require './php/config.php';
 
 $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-$profileImage = "default.png"; // Imagen por defecto
+$profileImage = "./uploads/default.png"; // Imagen por defecto
 
 if ($isLoggedIn) {
     $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
@@ -14,12 +13,11 @@ if ($isLoggedIn) {
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
     
-    if (!empty($userData["profile_image"])) {
-        $profileImage = $userData["profile_image"];
+    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
+        $profileImage = "./uploads/" . basename($userData["profile_image"]); // Ruta corregida
     }
 }
 
-// Manejo de cierre de sesión
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
@@ -49,14 +47,14 @@ if (!$isLoggedIn) {
                 <img src="./img/logo.png" alt="logo">
             </div>
             <form class="search-bar" action="#" method="GET">
-                <input type="text" name="query" placeholder="Buscar..." aria-label="Search">
+                <input type="text" name="query" placeholder="Search..." aria-label="Search">
                 <button type="submit">🔍</button>
             </form>
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
-                    <img src="<?php echo $profileImage; ?>" width="40" style="border-radius: 50%;" alt="Perfil">
                     <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <a href="./php/profile.php">Editar Perfil</a>
+                    <img src="<?php echo htmlspecialchars($profileImage); ?>" width="35" style="border-radius: 50%;" alt="Perfil">
+                    <a href="./php/profile.php">Perfil</a>
                     <a href="?logout=true">Logout</a>
                 <?php else: ?>
                     <a href="./php/register.php">Register</a>
@@ -67,4 +65,3 @@ if (!$isLoggedIn) {
     </header>
 </body>
 </html>
-
