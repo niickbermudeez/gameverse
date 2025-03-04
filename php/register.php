@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             ";
 
             $mail->send();
-            header("Location: ./../web/login.html?success=Registered successfully! Please check your email.");
+            header("Location: ./../php/login.php?success=Registered successfully! Please check your email.");
             exit();
         } catch (Exception $e) {
             header("Location: ./../web/register.html?error=Mail error: {$mail->ErrorInfo}");

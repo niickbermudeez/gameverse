@@ -26,7 +26,7 @@ if (isset($_GET['logout'])) {
 }
 
 if (!$isLoggedIn) {
-    header("Location: ./web/login.html");
+    header("Location: ./php/login.php");
     exit();
 }
 ?>
