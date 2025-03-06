@@ -12,8 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $sql = "SELECT id, username, password, active FROM users WHERE username = ? OR email = ?";
     $stmt = $conn->prepare($sql);
+    
     if (!$stmt) {
-        header("Location: ./../php/login.php?error=Database error");
+        $_SESSION["error"] = "⚠️ Database error: " . $conn->error;
+        header("Location: ./../php/login.php");
         exit();
     }
 
@@ -26,7 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->fetch();
 
         if ($active == 0) {
-            header("Location: ./../php/login.php?error=Account not activated. Please check your email.");
+            $_SESSION["error"] = "⚠️ Account not activated. Please check your email.";
+            header("Location: ./../php/login.php");
             exit();
         }
 
@@ -42,19 +45,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $update_stmt->close();
             }
 
-            header("Location: ./../index.php?success=Login successful! Welcome, $username");
+            $_SESSION["success"] = "Login successful! Welcome, $username";
+            header("Location: ./../index.php");
             exit();
         } else {
-            header("Location: ./../php/login.php?error=Incorrect password");
-            exit();
+            $_SESSION["error"] = "⚠️ Incorrect password";
         }
     } else {
-            header("Location: ./../php/login.php?error=User not found");
-            exit();
+        $_SESSION["error"] = "⚠️ User not found";
     }
 
     $stmt->close();
     $conn->close();
+    header("Location: ./../php/login.php");
+    exit();
 }
 ?> 
 <!DOCTYPE html>
@@ -73,6 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <section class="login-form-container">
             <h1>Welcome Back!</h1>
+
+            <?php if (isset($_SESSION["error"])): ?>
+                <div class="error-message"><p><?php echo $_SESSION["error"]; unset($_SESSION["error"]); ?></p></div>
+            <?php endif; ?>
+
             <form action="./login.php" method="POST" class="login-form">
                 <div class="input-group">
                     <label for="username">Email or Username</label>

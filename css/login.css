@@ -104,6 +104,24 @@ body {
     color: #FFD700;
 }
 
+.error-message{
+    color: #FF4B4B;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: left;
+    background: rgba(255, 75, 75, 0.2);
+    padding: 0px 10px;
+    border-radius: 5px;
+    min-height: 3em;
+    position: relative;
+}
+
+.error-message p{
+    font-size: 1rem;
+    margin: 11px 0 0 0;
+}
+
 .login-form button {
     width: 100%;
     max-width: 350px;
