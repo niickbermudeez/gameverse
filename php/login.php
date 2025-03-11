@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
             
             <p class="redirect">
-                Don't have an account? <a href="./../web/register.html">Register here</a>
+                Don't have an account? <a href="./../php/register.php">Register here</a>
             </p>
             <p class="forgot-password">
                 <a href="./reset-password.php">Forgot your password?</a>
@@ -106,6 +106,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>  
     </main>
     <script src="./../js/register.js"></script>
-    <script src="./../js/reset_form.js"></script>
 </body>
 </html>

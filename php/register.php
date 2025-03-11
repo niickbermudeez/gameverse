@@ -10,12 +10,22 @@ use PHPMailer\PHPMailer\PHPMailer;
 $error_message = "";
 $success_message = "";
 
+$sql = "SELECT id, name FROM countries ORDER BY name ASC";
+$result = $conn->query($sql);
+$countries = [];
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $countries[] = $row;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
     $first_name       = $_POST['first_name'];
     $last_name        = $_POST['last_name'];
     $birth_date       = $_POST['birth_date']; 
-    $country          = $_POST['country'];
+    $country_id       = intval($_POST['country']); 
     $email            = $_POST['email'];
     $username         = $_POST['username'];
     $password         = $_POST['password'];
@@ -28,14 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $activationCode  = hash("sha256", random_bytes(32));
         $active          = 0;
 
-        $sql = "INSERT INTO users (first_name, last_name, birth_date, country, email, username, password, active, activationCode)
+        $sql = "INSERT INTO users (first_name, last_name, birth_date, country_id, email, username, password, active, activationCode)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
         if (!$stmt) {
             $error_message = "Database error: " . $conn->error;
         } else {
-            $stmt->bind_param("sssssssis", $first_name, $last_name, $birth_date, $country, $email, $username, $hashed_password, $active, $activationCode);
+            $stmt->bind_param("sssssssis", $first_name, $last_name, $birth_date, $country_id, $email, $username, $hashed_password, $active, $activationCode);
 
             if ($stmt->execute()) {
                 $activationUrl = "http://localhost/gameverse/php/mailCheckAccount.php?code=$activationCode&mail=$email";
@@ -84,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,34 +124,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <div class="input-group">
                     <label for="first-name">First Name</label>
                     <input type="text" id="first-name" name="first_name" placeholder="Enter your First Name" required>
+                    <div id="first-name-error" class="error-message"></div>
                 </div>
                 <div class="input-group">
                     <label for="last-name">Last Name</label>
                     <input type="text" id="last-name" name="last_name" placeholder="Enter your Last Name" required>
+                    <div id="last-name-error" class="error-message"></div>
                 </div>
                 <div class="input-group">
                     <label for="birth-date">Date of Birth</label>
                     <input type="date" id="birth-date" name="birth_date" required>
+                    <div id="birth-date-error" class="error-message"></div>
                 </div>
                 <div class="input-group">
                     <label for="country">Country</label>
-                    <input type="text" id="country" name="country" placeholder="Enter your country" required>
+                    <select id="country" name="country" required>
+                        <option value="">Select your country</option>
+                        <?php foreach ($countries as $country): ?>
+                            <option value="<?php echo $country['id']; ?>"><?php echo htmlspecialchars($country['name']); ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+                    <div id="email-error" class="error-message"></div>
                 </div>
                 <div class="input-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Choose a Username" required>
+                    <div id="username-error" class="error-message"></div>
                 </div>
                 <div class="input-group password-container">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter a Password" required>
+                    <span id="toggle-password" class="eye-button">👁️</span>
+                    <div id="password-error" class="error-message"></div>   
                 </div>
                 <div class="input-group password-container">
                     <label for="confirm-password">Confirm Password</label>
                     <input type="password" id="confirm-password" name="confirm_password" placeholder="Re-enter your Password" required>
+                    <span id="toggle-confirm-password" class="eye-button">👁️</span>
+                    <div id="confirm-password-error" class="error-message"></div>
                 </div>
                 <button type="submit">Register</button>
             </form>
