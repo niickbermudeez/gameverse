@@ -177,5 +177,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
     <script src="./../js/register.js"></script>
     <script src="./../js/reset_form.js"></script>
+    <!-- <script>
+        document.getElementById("country-search").addEventListener("input", function() {
+            let search = this.value.toLowerCase();
+            let options = document.querySelectorAll("#country option");
+            options.forEach(option => {
+                option.style.display = option.text.toLowerCase().includes(search) ? "block" : "none";
+            });
+        });
+    </script> -->
 </body>
 </html>
