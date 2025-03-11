@@ -4,7 +4,7 @@ require './php/config.php';
 
 $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-$profileImage = "./uploads/default.png"; // Imagen por defecto
+$profileImage = "./uploads/default.png"; 
 
 if ($isLoggedIn) {
     $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
@@ -14,7 +14,7 @@ if ($isLoggedIn) {
     $userData = $result->fetch_assoc();
     
     if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
-        $profileImage = "./uploads/" . basename($userData["profile_image"]); // Ruta corregida
+        $profileImage = "./uploads/" . basename($userData["profile_image"]); 
     }
 }
 
