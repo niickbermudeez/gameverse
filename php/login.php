@@ -106,5 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>  
     </main>
     <script src="./../js/register.js"></script>
+    <script src="./../js/reset_form.js"></script>
 </body>
 </html>
