@@ -201,28 +201,8 @@ body {
 }
 
 .register-form .input-group input[type="date"] {
-    width: 100%;
-    min-height: 2.5rem;
     border-radius: 8px;
-    border: 1px solid #F72585;
-    background-color: rgba(27, 30, 86, 0.8);
-    color: #E5E5E5;
-    font-family: Arial, sans-serif;
-    font-size: 0.95rem;
-    outline: none;
-    padding: 0.5rem 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box;
-    font-weight: normal; /* Fuente regular */
-}
-
-.register-form .input-group input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-}
-
-.register-form .input-group input[type="date"]:focus {
-    border-color: #FFD700;
-    box-shadow: 0 0 8px rgba(247, 37, 133, 0.8);
+    font-weight: normal;
 }
 
 .register-form .input-group input[type="date"].error {
@@ -231,6 +211,35 @@ body {
 }
 
 .register-form .input-group input[type="date"]:focus.error {
+    border-color: #FF4B4B;
+    box-shadow: 0 0 8px rgba(255, 75, 75, 0.8);
+}
+
+.profile-form .input-group select {
+    width: 100%;
+    min-height: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #F72585;
+    background-color: rgba(27, 30, 86, 0.8);
+    color: #E5E5E5;
+    font-size: 0.95rem;
+    outline: none;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.profile-form .input-group select:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 8px rgba(247, 37, 133, 0.8);
+}
+
+.profile-form .input-group select.error {
+    border-color: #FF4B4B;
+    background-color: rgba(255, 75, 75, 0.2);
+}
+
+.profile-form .input-group select:focus.error {
     border-color: #FF4B4B;
     box-shadow: 0 0 8px rgba(255, 75, 75, 0.8);
 }
