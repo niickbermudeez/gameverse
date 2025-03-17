@@ -19,13 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstNameInput = document.getElementById("first-name");
     const lastNameInput = document.getElementById("last-name");
     const birthDateInput = document.getElementById("birth-date"); 
-    // const countryInput = document.getElementById("country");
     const emailInput = document.getElementById("email");
     const usernameInput = document.getElementById("username");
 
     const nameRegex = /^[A-Za-z\s]{1,15}$/;
     const lastNameRegex = /^[A-Za-z\s]{1,30}$/;
-    // const countryRegex = /^[A-Za-z\s]{1,50}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const usernameRegex = /^.{1,25}$/;
 
@@ -86,14 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
             clearError(lastNameInput);
         }
     });
-
-    // countryInput.addEventListener("input", function () {
-    //     if (!countryRegex.test(countryInput.value.trim())) {
-    //         showError(countryInput, "Country must be max 50 characters and contain only letters.");
-    //     } else {
-    //         clearError(countryInput);
-    //     }
-    // });
 
     emailInput.addEventListener("input", function () {
         if (!emailRegex.test(emailInput.value.trim())) {

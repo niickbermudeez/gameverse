@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const bioRegex = /^.{0,100}$/;
     const countryRegex = /^[A-Za-z\s]{1,50}$/;
 
-    // Mostrar error
     function showError(element, message) {
         let errorElement = element.parentElement.querySelector(".error-message");
         if (!errorElement) {

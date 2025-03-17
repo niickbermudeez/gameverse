@@ -61,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,8 +91,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <div class="input-group password-container">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter a Password" required>
-                    <span id="toggle-password" class="eye-button">👁️</span>
+                    <input type="password" id="password-input" name="password" placeholder="Enter a Password" required>
+                    <span id="toggle-password-button" class="eye-button">👁️</span>
                 </div>
                 
                 <button type="submit">Login</button>
@@ -105,7 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </p>
         </section>  
     </main>
-    <script src="./../js/register.js"></script>
-    <script src="./../js/reset_form.js"></script>
+    <script src="./../js/login.js"></script>
 </body>
 </html>

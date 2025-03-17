@@ -34,66 +34,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     if ($password !== $confirm_password) {
         $error_message = "Passwords do not match.";
     } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $activationCode  = hash("sha256", random_bytes(32));
-        $active          = 0;
+        $sql_check = "SELECT id FROM users WHERE email = ? OR username = ?";
+        $stmt_check = $conn->prepare($sql_check);
+        $stmt_check->bind_param("ss", $email, $username);
+        $stmt_check->execute();
+        $stmt_check->store_result();
 
-        $sql = "INSERT INTO users (first_name, last_name, birth_date, country_id, email, username, password, active, activationCode)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-
-        if (!$stmt) {
-            $error_message = "Database error: " . $conn->error;
+        if ($stmt_check->num_rows > 0) {
+            $error_message = "Email or username already exists.";
         } else {
-            $stmt->bind_param("sssssssis", $first_name, $last_name, $birth_date, $country_id, $email, $username, $hashed_password, $active, $activationCode);
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $activationCode  = hash("sha256", random_bytes(32));
+            $active          = 0;
 
-            if ($stmt->execute()) {
-                $activationUrl = "http://localhost/gameverse/php/mailCheckAccount.php?code=$activationCode&mail=$email";
+            $sql = "INSERT INTO users (first_name, last_name, birth_date, country_id, email, username, password, active, activationCode)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
 
-                $mail           = new PHPMailer(true);
-                $mail->CharSet  = 'UTF-8';
-                $mail->Encoding = 'base64';
-
-                try {
-                    $mail->isSMTP();
-                    $mail->Host       = 'smtp.gmail.com';
-                    $mail->SMTPAuth   = true;
-                    $mail->Username   = 'nick.bermudeze@educem.net';
-                    $mail->Password   = 'zqfx kfdq veiz hniy';
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                    $mail->Port       = 587;
-
-                    $mail->setFrom('nick.bermudeze@educem.net', 'Gameverse');
-                    $mail->addAddress($email, $first_name);
-
-                    $mail->isHTML(true);
-                    $mail->Subject = '✅ Verify Your Email - Gameverse';
-                    $mail->Body    = "
-                        <div style='background-color: #0D0D2B; padding: 20px; text-align: center; color: #E5E5E5; font-family: Arial, sans-serif;'>
-                            <h1>Verify Your Email ✅</h1>
-                            <p>Hey <strong>$username</strong>,</p>
-                            <p>Thank you for signing up at Gameverse! Please verify your email by clicking the button below.</p>
-                            <a href='$activationUrl' style='display: inline-block; padding: 15px 25px; background: #F72585; color: #fff; text-decoration: none; border-radius: 5px;'>✅ Verify Your Email</a>
-                            <p>If you didn't sign up for Gameverse, please ignore this email.</p>
-                        </div>
-                    ";
-
-                    $mail->send();
-                    $success_message = "Registered successfully! Please check your email.";
-                } catch (Exception $e) {
-                    $error_message = "Mail error: " . $mail->ErrorInfo;
-                }
+            if (!$stmt) {
+                $error_message = "Database error: " . $conn->error;
             } else {
-                $error_message = "Registration failed. Try again.";
-            }
+                $stmt->bind_param("sssssssis", $first_name, $last_name, $birth_date, $country_id, $email, $username, $hashed_password, $active, $activationCode);
 
-            $stmt->close();
+                if ($stmt->execute()) {
+                    $activationUrl = "http://localhost/gameverse/php/mailCheckAccount.php?code=$activationCode&mail=$email";
+
+                    $mail = new PHPMailer(true);
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Encoding = 'base64';
+
+                    try {
+                        $mail->isSMTP();
+                        $mail->Host       = 'smtp.gmail.com';
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = 'nick.bermudeze@educem.net';
+                        $mail->Password   = 'zqfx kfdq veiz hniy';
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                        $mail->Port       = 587;
+
+                        $mail->setFrom('nick.bermudeze@educem.net', 'Gameverse');
+                        $mail->addAddress($email, $first_name);
+
+                        $mail->isHTML(true);
+                        $mail->Subject = '✅ Verify Your Email - Gameverse';
+                        $mail->Body    = "
+                            <div style='background-color: #0D0D2B; padding: 20px; text-align: center; color: #E5E5E5; font-family: Arial, sans-serif;'>
+                                <h1>Verify Your Email ✅</h1>
+                                <p>Hey <strong>$username</strong>,</p>
+                                <p>Thank you for signing up at Gameverse! Please verify your email by clicking the button below.</p>
+                                <a href='$activationUrl' style='display: inline-block; padding: 15px 25px; background: #F72585; color: #fff; text-decoration: none; border-radius: 5px;'>✅ Verify Your Email</a>
+                                <p>If you didn't sign up for Gameverse, please ignore this email.</p>
+                            </div>
+                        ";
+
+                        $mail->send();
+                        $success_message = "Registered successfully! Please check your email.";
+                    } catch (Exception $e) {
+                        $error_message = "Mail error: " . $mail->ErrorInfo;
+                    }
+                } else {
+                    $error_message = "Registration failed. Try again.";
+                }
+
+                $stmt->close();
+            }
         }
-        $conn->close();
+        $stmt_check->close();
     }
+    $conn->close();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -174,7 +184,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             </p>
         </section>
     </main>
-
     <script src="./../js/register.js"></script>
     <script src="./../js/reset_form.js"></script>
 </body>

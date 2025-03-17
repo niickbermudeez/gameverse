@@ -200,6 +200,39 @@ body {
     }
 }
 
+.success-message {
+    color: #0f5132; 
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    background: rgba(40, 167, 69, 0.2); 
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: inline-block;
+    min-width: auto;
+    max-width: 80%;
+    animation: fadeInSuccess 0.3s ease-in-out;
+}
+
+.success-message::before {
+    content: "✅ ";
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+@keyframes fadeInSuccess {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
 .register-form .input-group input[type="date"] {
     border-radius: 8px;
     font-weight: normal;
@@ -243,3 +276,4 @@ body {
     border-color: #FF4B4B;
     box-shadow: 0 0 8px rgba(255, 75, 75, 0.8);
 }
+

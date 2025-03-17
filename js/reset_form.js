@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const passwordInput = document.getElementById("password");
     const confirmPasswordInput = document.getElementById("confirm-password");
-    const form = document.querySelector(".register-form"); // Selecciona el formulario
+    const form = document.querySelector(".register-form");
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,@$!%*?&])[A-Za-z\d.,@$!%*?&]{8,}$/;
 
     function showError(element, message) {
-        const errorElement = element.nextElementSibling; // Cambiar si la estructura HTML es diferente
+        const errorElement = element.parentElement.querySelector(".error-message");
         if (errorElement) {
             errorElement.textContent = message;
             errorElement.style.display = "block";
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function clearError(element) {
-        const errorElement = element.nextElementSibling;
+        const errorElement = element.parentElement.querySelector(".error-message");
         if (errorElement) {
             errorElement.textContent = "";
             errorElement.style.display = "none";
@@ -45,24 +45,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     passwordInput.addEventListener("input", function () {
+        let tPassword = document.getElementById("toggle-password");
+        let tPassword1 = document.getElementById("toggle-confirm-password");
+        // toggle-password
         if (!passwordRegex.test(passwordInput.value)) {
             showError(passwordInput, "Password must be at least 8 characters, include uppercase, lowercase, numbers, and special characters.");
+            tPassword.style.top="35%";
         } else {
             clearError(passwordInput);
+            tPassword.style.top="65%";
         }
 
         if (confirmPasswordInput.value !== "" && passwordInput.value !== confirmPasswordInput.value) {
-            showError(confirmPasswordInput, "Passwords do not match.");
         } else {
             clearError(confirmPasswordInput);
         }
     });
 
     confirmPasswordInput.addEventListener("input", function () {
+        let tPassword = document.getElementById("toggle-confirm-password");
         if (passwordInput.value !== confirmPasswordInput.value) {
             showError(confirmPasswordInput, "Passwords do not match.");
+            tPassword.style.top="35%";
         } else {
             clearError(confirmPasswordInput);
+            tPassword.style.top="65%";
         }
     });
 
