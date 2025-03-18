@@ -4,7 +4,7 @@ include 'config.php';
 
 $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-$profileImage = "./uploads/default.png"; 
+$profileImage = "./uploads/default.png";
 
 if ($isLoggedIn) {
     $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
@@ -12,9 +12,9 @@ if ($isLoggedIn) {
     $stmt->execute();
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
-    
+
     if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
-        $profileImage = "./uploads/" . basename($userData["profile_image"]); 
+        $profileImage = "./uploads/" . basename($userData["profile_image"]);
     }
 }
 
@@ -29,6 +29,26 @@ if (!$isLoggedIn) {
     header("Location: ./php/login.php");
     exit();
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $description = $_POST['description'];
+    $image = null;
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image = $_FILES['image']['name'];
+        $uploadDir = './uploads/';
+        $uploadFile = $uploadDir . basename($image);
+        move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile);
+    }
+
+    $stmt = $conn->prepare("INSERT INTO publications (user_id, text_description, image) VALUES (?, ?, ?)");
+    $stmt->bind_param("iss", $_SESSION["user_id"], $description, $image);
+    if ($stmt->execute()) {
+        echo "<script>alert('Publicación creada exitosamente'); window.location.href='community.php';</script>";
+    } else {
+        echo "<script>alert('Error al crear la publicación.');</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,11 +56,10 @@ if (!$isLoggedIn) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community - Gameverse</title>
-    <link rel="stylesheet" href="./../css/community.css">
+    <link rel="stylesheet" href="./../css/create-publication.css">
     <link rel="icon" type="image/x-icon" href="./img/GV.ico">
 </head>
-<body>  
+<body>
     <header>
         <nav>
             <div class="logo">
@@ -66,8 +85,14 @@ if (!$isLoggedIn) {
     </header>
 
     <main>
-        <h2>COMMUNITY</h2>
-        <a href="./create-publication.php" class="create-post-btn">+</a>
+        <form action="create_publication.php" method="POST" enctype="multipart/form-data" class="create-publication-form">
+            <textarea name="description" placeholder="Describe your publication..." required></textarea>
+
+            <label for="image">Upload an image (optional):</label>
+            <input type="file" name="image" accept="image/*">
+
+            <button type="submit">Post</button>
+        </form>
     </main>
 </body>
 </html>

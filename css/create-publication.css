@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: #E5E5E5;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo img {
+    height: 3rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #1B1E56;
+    border-radius: 25px;
+    padding: 0.5rem;
+    width: 400px;
+    max-width: 90%;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: #E5E5E5;
+    font-size: 1rem;
+}
+
+.search-bar button {
+    background-color: #1B1E56;
+    border: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #1B1E56;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    color: #E5E5E5;
+}
+
+.auth-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.auth-links a {
+    text-decoration: none;
+    color: #E5E5E5;
+    font-weight: bold;
+    background: #1B1E56;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.auth-links a:hover {
+    background: linear-gradient(90deg, #F72585, #4361EE); 
+    color: #E5E5E5; 
+}
+
+.welcome-message {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-message img {
+    width: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.create-publication-form {
+    margin: 100px auto 0;
+    padding: 2rem;
+    background-color: #1B1E56;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+}
+
+.create-publication-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 5px;
+    border: none;
+    resize: vertical;
+    font-size: 1rem;
+    color: #333;
+}
+
+.create-publication-form input[type="file"] {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.create-publication-form button {
+    background-color: #F72585;
+    border: none;
+    padding: 1rem;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.create-publication-form button:hover {
+    background-color: #4361EE;
+}
