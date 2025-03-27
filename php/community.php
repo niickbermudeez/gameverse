@@ -3,21 +3,18 @@ session_start();
 include 'config.php';
 
 $isLoggedIn = isset($_SESSION["user_id"]);
+$username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
 $profileImage = "./uploads/default.png"; 
-$username = "Invitado";
 
 if ($isLoggedIn) {
-    $stmt = $conn->prepare("SELECT username, profile_image FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
     $stmt->bind_param("i", $_SESSION["user_id"]);
     $stmt->execute();
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
     
-    $username = htmlspecialchars($userData["username"]);
-
-    $imagePath = "./uploads/" . basename($userData["profile_image"]);
-    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/" . $imagePath)) {
-        $profileImage = $imagePath;
+    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
+        $profileImage = "./uploads/" . basename($userData["profile_image"]); 
     }
 }
 
@@ -29,48 +26,8 @@ if (isset($_GET['logout'])) {
 }
 
 if (!$isLoggedIn) {
-    header("Location: php/login.php");
+    header("Location: ./php/login.php");
     exit();
-}
-
-// Inserir publicació a la bbdd
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $userId = $_SESSION["user_id"];
-    $textDescription = trim($_POST["text_description"]);
-    $imagePath = null;
-
-    if (empty($textDescription)) {
-        echo "Error: La descripción no puede estar vacía.";
-        exit();
-    }
-
-    if (!empty($_FILES["image"]["name"])) {
-        $targetDir = "./uploads/";
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true);
-        }
-
-        $fileName = time() . "_" . basename($_FILES["image"]["name"]);
-        $targetFilePath = $targetDir . $fileName;
-        $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-
-        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-        if (in_array($imageFileType, $allowedTypes)) {
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
-                $imagePath = $targetFilePath;
-            }
-        }
-    }
-
-    $stmt = $conn->prepare("INSERT INTO publications (user_id, text_description, image) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $userId, $textDescription, $imagePath);
-    
-    if ($stmt->execute()) {
-        header("Location: community.php");
-        exit();
-    } else {
-        echo "Error en publicar.";
-    }
 }
 ?>
 

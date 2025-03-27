@@ -30,23 +30,38 @@ if (!$isLoggedIn) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $description = $_POST['description'];
-    $image = null;
+// Inserir publicació a la bbdd
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $userId = $_SESSION["user_id"];
+    $textDescription = trim($_POST["text_description"]);
+    $imagePath = null;
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image = $_FILES['image']['name'];
-        $uploadDir = './uploads/';
-        $uploadFile = $uploadDir . basename($image);
-        move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile);
+    if (!empty($_FILES["image"]["name"])) {
+        $targetDir = "./../uploads/";
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+
+        $fileName = time() . "_" . basename($_FILES["image"]["name"]);
+        $targetFilePath = $targetDir . $fileName;
+        $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
+
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($imageFileType, $allowedTypes)) {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
+                $imagePath = $targetFilePath;
+            }
+        }
     }
 
     $stmt = $conn->prepare("INSERT INTO publications (user_id, text_description, image) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $_SESSION["user_id"], $description, $image);
+    $stmt->bind_param("iss", $userId, $textDescription, $imagePath);
+    
     if ($stmt->execute()) {
-        echo "<script>alert('Publicación creada exitosamente'); window.location.href='community.php';</script>";
+        header("Location: community.php");
+        exit();
     } else {
-        echo "<script>alert('Error al crear la publicación.');</script>";
+        echo "Error en publicar.";
     }
 }
 ?>
@@ -85,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
 
     <main>
-        <form action="create_publication.php" method="POST" enctype="multipart/form-data" class="create-publication-form">
+        <form action="create-publication.php" method="POST" enctype="multipart/form-data" class="create-publication-form">
             <textarea name="description" placeholder="Describe your publication..." required></textarea>
 
             <label for="image">Upload an image (optional):</label>
