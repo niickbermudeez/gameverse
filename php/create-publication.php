@@ -13,8 +13,8 @@ if ($isLoggedIn) {
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
 
-    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
-        $profileImage = "./uploads/" . basename($userData["profile_image"]);
+    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . basename($userData["profile_image"]))) {
+        $profileImage = basename($userData["profile_image"]);
     }
 }
 
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main>
         <form action="create-publication.php" method="POST" enctype="multipart/form-data" class="create-publication-form">
-            <textarea name="description" placeholder="Describe your publication..." required></textarea>
+            <textarea name="text_description" placeholder="Describe your publication..." required></textarea>
 
             <label for="image">Upload an image (optional):</label>
             <input type="file" name="image" accept="image/*">

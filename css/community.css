@@ -14,7 +14,6 @@ body {
     font-family: Arial, sans-serif;
     background: radial-gradient(circle, #1B1E56, #0D0D2B);
     color: #E5E5E5;
-    overflow: hidden;
 }
 
 header {
@@ -141,11 +140,14 @@ main {
 }
 
 h2 {
-    font-size: 3rem;
-    margin-top: 3rem;
-    color: #FFD700;
     font-family: 'HelveticaNow', sans-serif;
-    letter-spacing: 2px;
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    text-align: center;
 }
 
 .create-post-btn {
@@ -169,6 +171,66 @@ h2 {
 
 .create-post-btn:hover {
     background-color: #4361EE;
+}
+
+.posts-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.post {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: #E5E5E5;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-family: 'HelveticaNow', sans-serif;
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.post-date {
+    font-size: 0.85rem;
+    color: #A9A9A9;
+    margin-left: auto;
+}
+
+.post-content p {
+    margin: 2rem 0 0.5rem 0;
+    text-align: start;
+}
+
+.post-image {
+    width: auto;
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-top: 0.5rem;
 }
 
 

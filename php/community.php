@@ -13,7 +13,7 @@ if ($isLoggedIn) {
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
     
-    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
+    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . basename($userData["profile_image"]))) {
         $profileImage = "./uploads/" . basename($userData["profile_image"]); 
     }
 }
@@ -29,6 +29,16 @@ if (!$isLoggedIn) {
     header("Location: ./php/login.php");
     exit();
 }
+
+$stmt = $conn->prepare("
+    SELECT publications.*, users.username, users.profile_image 
+    FROM publications 
+    JOIN users ON publications.user_id = users.id 
+    ORDER BY publications.publication_date DESC 
+    LIMIT 15
+");
+$stmt->execute();
+$publications = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -67,6 +77,32 @@ if (!$isLoggedIn) {
 
     <main>
         <h2>COMMUNITY</h2>
+
+        <div class="posts-container">
+            <?php if ($publications->num_rows > 0): ?>
+                <?php while ($post = $publications->fetch_assoc()): 
+                    $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
+                    $userImage = !empty($post["profile_image"]) ? "./uploads/" . htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
+                ?>
+                    <div class="post">
+                        <div class="post-header">
+                            <img src="<?php echo $userImage; ?>" class="profile-pic" alt="Perfil">
+                            <span class="username"><?php echo htmlspecialchars($post["username"]); ?></span>
+                            <span class="post-date"><?php echo date("d/m/Y H:i", strtotime($post["publication_date"])); ?></span>
+                        </div>
+                        <div class="post-content">
+                            <?php if ($postImage): ?>
+                                <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
+                            <?php endif; ?>
+                            <p><?php echo nl2br(htmlspecialchars($post["text_description"])); ?></p>
+                            </div>
+                    </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No hay publicaciones aún.</p>
+            <?php endif; ?>
+        </div>
+
         <a href="./create-publication.php" class="create-post-btn">+</a>
     </main>
 </body>
