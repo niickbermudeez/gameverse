@@ -53,7 +53,7 @@ if (!$isLoggedIn) {
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
                     <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <img src="<?php echo htmlspecialchars($profileImage); ?>" width="35" style="border-radius: 50%;" alt="Perfil">
+                    <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
                     <a href="./php/profile.php">Perfil</a>
                     <a href="./php/community.php">Community</a>
                     <a href="?logout=true">Logout</a>

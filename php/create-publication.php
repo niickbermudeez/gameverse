@@ -4,7 +4,7 @@ include 'config.php';
 
 $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-$profileImage = "./uploads/default.png";
+$profileImage = "./uploads/default.png"; 
 
 if ($isLoggedIn) {
     $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
@@ -13,8 +13,8 @@ if ($isLoggedIn) {
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
 
-    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . basename($userData["profile_image"]))) {
-        $profileImage = basename($userData["profile_image"]);
+    if ($userData != null) {
+        $profileImage = "./../uploads/" . basename($userData["profile_image"]); 
     }
 }
 
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
                     <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <img src="<?php echo htmlspecialchars($profileImage); ?>" width="35" style="border-radius: 50%;" alt="Perfil">
+                    <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
                     <a href="./profile.php">Perfil</a>
                     <a href="./../index.php">Home</a>
                     <a href="?logout=true">Logout</a>

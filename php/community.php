@@ -12,9 +12,9 @@ if ($isLoggedIn) {
     $stmt->execute();
     $result = $stmt->get_result();
     $userData = $result->fetch_assoc();
-    
-    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . basename($userData["profile_image"]))) {
-        $profileImage = "./uploads/" . basename($userData["profile_image"]); 
+
+    if ($userData != null) {
+        $profileImage = "./../uploads/" . basename($userData["profile_image"]); 
     }
 }
 
@@ -63,7 +63,7 @@ $publications = $stmt->get_result();
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
                     <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <img src="<?php echo htmlspecialchars($profileImage); ?>" width="35" style="border-radius: 50%;" alt="Perfil">
+                    <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
                     <a href="./profile.php">Perfil</a>
                     <a href="./../index.php">Home</a>
                     <a href="?logout=true">Logout</a>
@@ -82,7 +82,7 @@ $publications = $stmt->get_result();
             <?php if ($publications->num_rows > 0): ?>
                 <?php while ($post = $publications->fetch_assoc()): 
                     $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
-                    $userImage = !empty($post["profile_image"]) ? "./uploads/" . htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
+                    $userImage = !empty($post["profile_image"]) ? htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
                 ?>
                     <div class="post">
                         <div class="post-header">
@@ -94,6 +94,11 @@ $publications = $stmt->get_result();
                             <?php if ($postImage): ?>
                                 <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
                             <?php endif; ?>
+                            <div class="reactions-container">
+                                <button>❤️ 0</button>
+                                <button>🗯 0</button>
+                                <button>📥</button>
+                            </div>
                             <p><?php echo nl2br(htmlspecialchars($post["text_description"])); ?></p>
                             </div>
                     </div>
