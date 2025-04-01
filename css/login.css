@@ -11,13 +11,17 @@ body {
     box-sizing: border-box;
 }
 
+.logo-img{
+    width: 100%;
+}
+
 .login-form-container {
     background: rgba(0, 0, 0, 0.9);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
     max-width: 420px;
-    width: 100%;
+    width: 80%;
     text-align: center;
     animation: fadeIn 0.8s ease-out;
     margin: 2rem auto;

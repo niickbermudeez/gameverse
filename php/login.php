@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <main>
         <div class="logo">
-            <img src="./../img/logo.png" alt="logo">
+            <img src="./../img/logo.png" alt="logo" class="logo-img">
         </div>
         <section class="login-form-container">
             <h1>Welcome Back!</h1>
