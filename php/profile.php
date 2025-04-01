@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <main>
         <div class="logo">
-            <img src="./../img/logo.png" alt="logo">
+            <img src="./../img/logo.png" alt="logo" class="logo-img">
         </div>
         <section class="profile-form-container">
             <h1>Editar Perfil</h1>
