@@ -129,34 +129,34 @@ $publications = $stmt->get_result();
         <div class="posts-container">
             <?php if ($publications->num_rows > 0): ?>
                 <?php while ($post = $publications->fetch_assoc()):
-    $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
-    $userImage = !empty($post["profile_image"]) ? htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
+                    $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
+                    $userImage = !empty($post["profile_image"]) ? htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
 
-    $stmt_likes = $conn->prepare("SELECT COUNT(*) as like_count FROM reactions WHERE publication_id = ? AND type = 'Like'");
-    $stmt_likes->bind_param("i", $post["id"]);
-    $stmt_likes->execute();
-    $result_likes = $stmt_likes->get_result();
-    $like_count = $result_likes->fetch_assoc()["like_count"] ?? 0;
+                    $stmt_likes = $conn->prepare("SELECT COUNT(*) as like_count FROM reactions WHERE publication_id = ? AND type = 'Like'");
+                    $stmt_likes->bind_param("i", $post["id"]);
+                    $stmt_likes->execute();
+                    $result_likes = $stmt_likes->get_result();
+                    $like_count = $result_likes->fetch_assoc()["like_count"] ?? 0;
 
-    $userLiked = false;
-    if ($isLoggedIn) {
-        $stmt_user_like = $conn->prepare("SELECT 1 FROM reactions WHERE user_id = ? AND publication_id = ? AND type = 'Like'");
-        $stmt_user_like->bind_param("ii", $_SESSION["user_id"], $post["id"]);
-        $stmt_user_like->execute();
-        $result_user_like = $stmt_user_like->get_result();
-        $userLiked = $result_user_like->num_rows > 0;
-    }
-    ?>
-		                    <div class="post">
-		                        <div class="post-header">
-		                            <img src="<?php echo $userImage; ?>" class="profile-pic" alt="Perfil">
-		                            <span class="username"><?php echo htmlspecialchars($post["username"]); ?></span>
-		                            <span class="post-date"><?php echo date("d/m/Y H:i", strtotime($post["publication_date"])); ?></span>
-		                        </div>
-		                        <div class="post-content">
-		                            <?php if ($postImage): ?>
-		                                <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
-		                            <?php endif; ?>
+                    $userLiked = false;
+                    if ($isLoggedIn) {
+                        $stmt_user_like = $conn->prepare("SELECT 1 FROM reactions WHERE user_id = ? AND publication_id = ? AND type = 'Like'");
+                        $stmt_user_like->bind_param("ii", $_SESSION["user_id"], $post["id"]);
+                        $stmt_user_like->execute();
+                        $result_user_like = $stmt_user_like->get_result();
+                        $userLiked = $result_user_like->num_rows > 0;
+                    }
+                ?>
+                    <div class="post">
+                        <div class="post-header">
+                            <img src="<?php echo $userImage; ?>" class="profile-pic" alt="Perfil">
+                            <span class="username"><?php echo htmlspecialchars($post["username"]); ?></span>
+                            <span class="post-date"><?php echo date("d/m/Y H:i", strtotime($post["publication_date"])); ?></span>
+                        </div>
+                        <div class="post-content">
+                            <?php if ($postImage): ?>
+                                <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
+                            <?php endif; ?>
                             <div class="reactions-container">
                                 <form method="POST" action="">
                                     <input type="hidden" name="like_post_id" value="<?php echo $post["id"]; ?>">
