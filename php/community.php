@@ -4,7 +4,7 @@ include 'config.php';
 
 $isLoggedIn = isset($_SESSION["user_id"]);
 $username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-$profileImage = "./uploads/default.png"; 
+$profileImage = "./uploads/default.png";
 
 if ($isLoggedIn) {
     $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
@@ -14,7 +14,7 @@ if ($isLoggedIn) {
     $userData = $result->fetch_assoc();
 
     if ($userData != null) {
-        $profileImage = "./../uploads/" . basename($userData["profile_image"]); 
+        $profileImage = "./../uploads/" . basename($userData["profile_image"]);
     }
 }
 
@@ -63,11 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["like_post_id"])) {
 
 // Obtenir publicacions
 $stmt = $conn->prepare("
-    SELECT publications.*, users.username, users.profile_image 
-    FROM publications 
-    JOIN users ON publications.user_id = users.id 
-    ORDER BY publications.publication_date DESC 
-    LIMIT 15
+    SELECT publications.*, users.username, users.profile_image
+    FROM publications
+    JOIN users ON publications.user_id = users.id
+    ORDER BY publications.publication_date DESC
+    LIMIT 20
 ");
 $stmt->execute();
 $publications = $stmt->get_result();
@@ -82,7 +82,7 @@ $publications = $stmt->get_result();
     <link rel="stylesheet" href="./../css/community.css">
     <link rel="icon" type="image/x-icon" href="./img/GV.ico">
 </head>
-<body>  
+<body>
     <header>
         <nav>
             <div class="logo">
@@ -104,43 +104,59 @@ $publications = $stmt->get_result();
                     <a href="./php/login.php">Login</a>
                 <?php endif; ?>
             </div>
+            <img src="./../img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
         </nav>
     </header>
+
+    <div class="mobile-menu">
+        <?php if ($isLoggedIn): ?>
+            <div class="mobile-menu-header">
+                <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
+                <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
+            </div>
+            <a href="./profile.php">Perfil</a>
+            <a href="./../index.php">Home</a>
+            <a href="?logout=true">Logout</a>
+        <?php else: ?>
+            <a href="./php/register.php">Register</a>
+            <a href="./php/login.php">Login</a>
+        <?php endif; ?>
+    </div>
 
     <main>
         <h2>COMMUNITY</h2>
 
         <div class="posts-container">
             <?php if ($publications->num_rows > 0): ?>
-                <?php while ($post = $publications->fetch_assoc()): 
-                    $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
-                    $userImage = !empty($post["profile_image"]) ? htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
-                    
-                    $stmt_likes = $conn->prepare("SELECT COUNT(*) as like_count FROM reactions WHERE publication_id = ? AND type = 'Like'");
-                    $stmt_likes->bind_param("i", $post["id"]);
-                    $stmt_likes->execute();
-                    $result_likes = $stmt_likes->get_result();
-                    $like_count = $result_likes->fetch_assoc()["like_count"] ?? 0;
+                <?php while ($post = $publications->fetch_assoc()):
+    $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
+    $userImage = !empty($post["profile_image"]) ? htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
 
-                    $userLiked = false;
-                    if ($isLoggedIn) {
-                        $stmt_user_like = $conn->prepare("SELECT 1 FROM reactions WHERE user_id = ? AND publication_id = ? AND type = 'Like'");
-                        $stmt_user_like->bind_param("ii", $_SESSION["user_id"], $post["id"]);
-                        $stmt_user_like->execute();
-                        $result_user_like = $stmt_user_like->get_result();
-                        $userLiked = $result_user_like->num_rows > 0;
-                    }
-                ?>
-                    <div class="post">
-                        <div class="post-header">
-                            <img src="<?php echo $userImage; ?>" class="profile-pic" alt="Perfil">
-                            <span class="username"><?php echo htmlspecialchars($post["username"]); ?></span>
-                            <span class="post-date"><?php echo date("d/m/Y H:i", strtotime($post["publication_date"])); ?></span>
-                        </div>
-                        <div class="post-content">
-                            <?php if ($postImage): ?>
-                                <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
-                            <?php endif; ?>
+    $stmt_likes = $conn->prepare("SELECT COUNT(*) as like_count FROM reactions WHERE publication_id = ? AND type = 'Like'");
+    $stmt_likes->bind_param("i", $post["id"]);
+    $stmt_likes->execute();
+    $result_likes = $stmt_likes->get_result();
+    $like_count = $result_likes->fetch_assoc()["like_count"] ?? 0;
+
+    $userLiked = false;
+    if ($isLoggedIn) {
+        $stmt_user_like = $conn->prepare("SELECT 1 FROM reactions WHERE user_id = ? AND publication_id = ? AND type = 'Like'");
+        $stmt_user_like->bind_param("ii", $_SESSION["user_id"], $post["id"]);
+        $stmt_user_like->execute();
+        $result_user_like = $stmt_user_like->get_result();
+        $userLiked = $result_user_like->num_rows > 0;
+    }
+    ?>
+		                    <div class="post">
+		                        <div class="post-header">
+		                            <img src="<?php echo $userImage; ?>" class="profile-pic" alt="Perfil">
+		                            <span class="username"><?php echo htmlspecialchars($post["username"]); ?></span>
+		                            <span class="post-date"><?php echo date("d/m/Y H:i", strtotime($post["publication_date"])); ?></span>
+		                        </div>
+		                        <div class="post-content">
+		                            <?php if ($postImage): ?>
+		                                <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
+		                            <?php endif; ?>
                             <div class="reactions-container">
                                 <form method="POST" action="">
                                     <input type="hidden" name="like_post_id" value="<?php echo $post["id"]; ?>">
@@ -163,4 +179,6 @@ $publications = $stmt->get_result();
         <a href="./create-publication.php" class="create-post-btn">+</a>
     </main>
 </body>
+
+<script src="./../js/header.js"></script>
 </html>
