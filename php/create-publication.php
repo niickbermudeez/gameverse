@@ -96,8 +96,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="./php/login.php">Login</a>
                 <?php endif; ?>
             </div>
+            <img src="./../img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
         </nav>
     </header>
+
+    <div class="mobile-menu">
+        <?php if ($isLoggedIn): ?>
+            <div class="mobile-menu-header">
+                <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
+                <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
+            </div>
+            <a href="./profile.php">Perfil</a>
+            <a href="./../index.php">Home</a>
+            <a href="?logout=true">Logout</a>
+        <?php else: ?>
+            <a href="./php/register.php">Register</a>
+            <a href="./php/login.php">Login</a>
+        <?php endif; ?>
+    </div>
 
     <main>
         <form action="create-publication.php" method="POST" enctype="multipart/form-data" class="create-publication-form">
@@ -110,4 +126,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </main>
 </body>
+<script src="./../js/header.js"></script>
 </html>
