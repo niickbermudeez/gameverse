@@ -30,6 +30,38 @@ if (!$isLoggedIn) {
     exit();
 }
 
+// Acció de donar "Like"
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["like_post_id"])) {
+    $user_id = $_SESSION["user_id"];
+    $publication_id = intval($_POST["like_post_id"]);
+
+    $stmt = $conn->prepare("SELECT type FROM reactions WHERE user_id = ? AND publication_id = ?");
+    $stmt->bind_param("ii", $user_id, $publication_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $existing_reaction = $result->fetch_assoc();
+
+    if ($existing_reaction) {
+        if ($existing_reaction["type"] === "Like") {
+            $stmt = $conn->prepare("DELETE FROM reactions WHERE user_id = ? AND publication_id = ?");
+            $stmt->bind_param("ii", $user_id, $publication_id);
+            $stmt->execute();
+        } else {
+            $stmt = $conn->prepare("UPDATE reactions SET type = 'Like' WHERE user_id = ? AND publication_id = ?");
+            $stmt->bind_param("ii", $user_id, $publication_id);
+            $stmt->execute();
+        }
+    } else {
+        $stmt = $conn->prepare("INSERT INTO reactions (user_id, publication_id, type) VALUES (?, ?, 'Like')");
+        $stmt->bind_param("ii", $user_id, $publication_id);
+        $stmt->execute();
+    }
+
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit();
+}
+
+// Obtener publicaciones
 $stmt = $conn->prepare("
     SELECT publications.*, users.username, users.profile_image 
     FROM publications 
@@ -83,6 +115,21 @@ $publications = $stmt->get_result();
                 <?php while ($post = $publications->fetch_assoc()): 
                     $postImage = !empty($post["image"]) ? htmlspecialchars($post["image"]) : null;
                     $userImage = !empty($post["profile_image"]) ? htmlspecialchars($post["profile_image"]) : "./uploads/default.png";
+                    
+                    $stmt_likes = $conn->prepare("SELECT COUNT(*) as like_count FROM reactions WHERE publication_id = ? AND type = 'Like'");
+                    $stmt_likes->bind_param("i", $post["id"]);
+                    $stmt_likes->execute();
+                    $result_likes = $stmt_likes->get_result();
+                    $like_count = $result_likes->fetch_assoc()["like_count"] ?? 0;
+
+                    $userLiked = false;
+                    if ($isLoggedIn) {
+                        $stmt_user_like = $conn->prepare("SELECT 1 FROM reactions WHERE user_id = ? AND publication_id = ? AND type = 'Like'");
+                        $stmt_user_like->bind_param("ii", $_SESSION["user_id"], $post["id"]);
+                        $stmt_user_like->execute();
+                        $result_user_like = $stmt_user_like->get_result();
+                        $userLiked = $result_user_like->num_rows > 0;
+                    }
                 ?>
                     <div class="post">
                         <div class="post-header">
@@ -95,12 +142,17 @@ $publications = $stmt->get_result();
                                 <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
                             <?php endif; ?>
                             <div class="reactions-container">
-                                <button>❤️ 0</button>
+                                <form method="POST" action="">
+                                    <input type="hidden" name="like_post_id" value="<?php echo $post["id"]; ?>">
+                                    <button type="submit" class="like-btn <?php echo $userLiked ? 'liked' : ''; ?>">
+                                        ❤️ <?php echo $like_count; ?>
+                                    </button>
+                                </form>
                                 <button>🗯 0</button>
                                 <button>📥</button>
                             </div>
                             <p><?php echo nl2br(htmlspecialchars($post["text_description"])); ?></p>
-                            </div>
+                        </div>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
