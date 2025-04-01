@@ -73,12 +73,12 @@ if (!$isLoggedIn) {
                 <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
             </div>
             <a href="./php/profile.php">Perfil</a>
-                    <a href="./php/community.php">Community</a>
-                    <a href="?logout=true">Logout</a>
-                <?php else: ?>
-                    <a href="./php/register.php">Register</a>
-                    <a href="./php/login.php">Login</a>
-                <?php endif; ?>
+            <a href="./php/community.php">Community</a>
+            <a href="?logout=true">Logout</a>
+        <?php else: ?>
+            <a href="./php/register.php">Register</a>
+            <a href="./php/login.php">Login</a>
+        <?php endif; ?>
     </div>
 </body>
 <script src="./js/header.js"></script>
