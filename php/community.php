@@ -165,7 +165,6 @@ $publications = $stmt->get_result();
                                     </button>
                                 </form>
                                 <button>🗯 0</button>
-                                <button>📥</button>
                             </div>
                             <p><?php echo nl2br(htmlspecialchars($post["text_description"])); ?></p>
                         </div>
