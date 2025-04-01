@@ -103,13 +103,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password - Gameverse</title>
-    <link rel="stylesheet" href="./../css/reset_password.css">
+    <link rel="stylesheet" href="./../css/reset-password.css">
     <link rel="shortcut icon" href="./../img/GV.png" type="image/x-icon">
 </head>
 <body>
     <main>
         <div class="logo">
-            <img src="./../img/logo.png" alt="logo">
+            <img src="./../img/logo.png" alt="logo" class="logo-img">
         </div>
 
         <?php if (isset($_SESSION['message'])): ?>
