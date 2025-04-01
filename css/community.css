@@ -149,7 +149,7 @@ nav {
     }
 
     .mobile-menu{
-        position: absolute;
+        position: fixed;
         background: #F72585;
         z-index: 1000;
         display: none;
