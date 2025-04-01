@@ -44,7 +44,7 @@ if (!$isLoggedIn) {
     <header>
         <nav>
             <div class="logo">
-                <img src="./img/logo.png" alt="logo">
+                <img src="./img/logo.png" alt="logo" class="logo-img">
             </div>
             <form class="search-bar" action="#" method="GET">
                 <input type="text" name="query" placeholder="Search..." aria-label="Search">
@@ -62,7 +62,24 @@ if (!$isLoggedIn) {
                     <a href="./php/login.php">Login</a>
                 <?php endif; ?>
             </div>
+            <img src="./img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
         </nav>
     </header>
+
+    <div class="mobile-menu">
+        <?php if ($isLoggedIn): ?>
+            <div class="mobile-menu-header">
+                <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
+                <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
+            </div>
+            <a href="./php/profile.php">Perfil</a>
+                    <a href="./php/community.php">Community</a>
+                    <a href="?logout=true">Logout</a>
+                <?php else: ?>
+                    <a href="./php/register.php">Register</a>
+                    <a href="./php/login.php">Login</a>
+                <?php endif; ?>
+    </div>
 </body>
+<script src="./js/header.js"></script>
 </html>
