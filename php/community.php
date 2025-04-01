@@ -26,7 +26,7 @@ if (isset($_GET['logout'])) {
 }
 
 if (!$isLoggedIn) {
-    header("Location: ./php/login.php");
+    header("Location: ./login.php");
     exit();
 }
 
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["like_post_id"])) {
     exit();
 }
 
-// Obtener publicaciones
+// Obtenir publicacions
 $stmt = $conn->prepare("
     SELECT publications.*, users.username, users.profile_image 
     FROM publications 
