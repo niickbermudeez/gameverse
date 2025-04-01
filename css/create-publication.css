@@ -111,11 +111,13 @@ nav {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .search-bar{
         display: none;
     }
+}
 
+@media (max-width: 768px) {
     .auth-links {
         display: none;
         flex-direction: column;
