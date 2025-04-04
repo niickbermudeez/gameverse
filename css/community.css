@@ -308,3 +308,96 @@ h2 {
 .reactions-container button:hover{
     cursor: pointer;
 }
+
+.comment {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.8rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+}
+
+.profile-pic {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+}
+
+.comment-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; 
+    width: 100%; /* Esto asegura que ocupe el ancho completo */
+}
+
+.comment-date {
+    font-size: 0.85rem;
+    color: #A9A9A9;
+    margin-bottom: 0.25rem;
+    align-self: flex-end; /* Alinea la fecha a la derecha */
+}
+
+.comment-username {
+    font-family: 'HelveticaNow', sans-serif;
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+}
+
+.comment-text {
+    margin-top: 0.5rem;
+    text-align: start;
+}
+
+.comment-btn{
+    background: linear-gradient(90deg, #F72585, #4361EE);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.comment-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.comment-input{
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #E5E5E5;
+}
+
+.delete-btn {
+    background: none;  /* Elimina el fondo */
+    border: none;  /* Elimina el borde */
+    cursor: pointer;  /* Hace que parezca un botón */
+    font-size: 16px;  /* Ajusta el tamaño si es necesario */
+    color: red;  /* Color rojo para mayor visibilidad */
+    padding: 5px; /* Ajusta el espaciado si es necesario */
+}
+
+.delete-btn:hover {
+    color: darkred; /* Oscurece el color al pasar el mouse */
+}

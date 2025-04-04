@@ -79,11 +79,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         $mail->Subject = '✅ Verify Your Email - Gameverse';
                         $mail->Body    = "
                             <div style='background-color: #0D0D2B; padding: 20px; text-align: center; color: #E5E5E5; font-family: Arial, sans-serif;'>
-                                <h1>Verify Your Email ✅</h1>
-                                <p>Hey <strong>$username</strong>,</p>
-                                <p>Thank you for signing up at Gameverse! Please verify your email by clicking the button below.</p>
-                                <a href='$activationUrl' style='display: inline-block; padding: 15px 25px; background: #F72585; color: #fff; text-decoration: none; border-radius: 5px;'>✅ Verify Your Email</a>
-                                <p>If you didn't sign up for Gameverse, please ignore this email.</p>
+                                <div style='max-width: 600px; margin: auto; background-color: #1B1E56; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);'>
+                                    <h1 style='font-size: 28px; font-weight: bold; margin-bottom: 10px;'>Gameverse</h1>
+                                    <h1 style='background: linear-gradient(90deg, #F72585, #4361EE); -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
+                                    Verify Your Email ✅
+                                    </h1>
+                                    <p>Hey <strong>$username</strong>,</p>
+                                    <p>Thank you for signing up at Gameverse! Please verify your email by clicking the button below.</p>
+                                    <a href='$activationUrl' style='display: inline-block; padding: 15px 25px; background: #F72585; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;'>
+                                    ✅ Verify Your Email
+                                    </a>
+                                    <p style='margin-top: 20px;'>If you didn't sign up for Gameverse, please ignore this email.</p>
+                                </div>
                             </div>
                         ";
 

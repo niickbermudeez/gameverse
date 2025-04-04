@@ -30,7 +30,6 @@ if (!$isLoggedIn) {
     exit();
 }
 
-// Acció de donar "Like"
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["like_post_id"])) {
     $user_id = $_SESSION["user_id"];
     $publication_id = intval($_POST["like_post_id"]);
@@ -61,14 +60,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["like_post_id"])) {
     exit();
 }
 
-// Obtenir publicacions
-$stmt = $conn->prepare("
-    SELECT publications.*, users.username, users.profile_image
-    FROM publications
-    JOIN users ON publications.user_id = users.id
-    ORDER BY publications.publication_date DESC
-    LIMIT 20
-");
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit_comment"])) {
+    $user_id = $_SESSION["user_id"];
+    $publication_id = intval($_POST["comment_post_id"]);
+    $comment_text = trim($_POST["comment_text"]);
+
+    if (!empty($comment_text)) {
+        $stmt = $conn->prepare("INSERT INTO comments (user_id, publication_id, comment_text, comment_date) VALUES (?, ?, ?, NOW())");
+        $stmt->bind_param("iis", $user_id, $publication_id, $comment_text);
+        $stmt->execute();
+    }
+
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_post_id"])) {
+    $post_id = intval($_POST["delete_post_id"]);
+    $user_id = $_SESSION["user_id"];
+    $stmt = $conn->prepare("DELETE FROM publications WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $post_id, $user_id);
+    $stmt->execute();
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_comment_id"])) {
+    $comment_id = intval($_POST["delete_comment_id"]);
+    $user_id = $_SESSION["user_id"];
+    $stmt = $conn->prepare("DELETE FROM comments WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("ii", $comment_id, $user_id);
+    $stmt->execute();
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit();
+}
+
+$stmt = $conn->prepare("SELECT publications.*, users.username, users.profile_image FROM publications JOIN users ON publications.user_id = users.id ORDER BY publications.publication_date DESC LIMIT 20");
 $stmt->execute();
 $publications = $stmt->get_result();
 ?>
@@ -114,7 +141,7 @@ $publications = $stmt->get_result();
                 <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
                 <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
             </div>
-            <a href="./profile.php">Perfil</a>
+            <a href="./profile.php">Profile</a>
             <a href="./../index.php">Home</a>
             <a href="?logout=true">Logout</a>
         <?php else: ?>
@@ -138,6 +165,12 @@ $publications = $stmt->get_result();
                     $result_likes = $stmt_likes->get_result();
                     $like_count = $result_likes->fetch_assoc()["like_count"] ?? 0;
 
+                    $stmt_comments = $conn->prepare("SELECT COUNT(*) as comment_count FROM comments WHERE publication_id = ?");
+                    $stmt_comments->bind_param("i", $post["id"]);
+                    $stmt_comments->execute();
+                    $result_comments = $stmt_comments->get_result();
+                    $comment_count = $result_comments->fetch_assoc()["comment_count"] ?? 0; 
+
                     $userLiked = false;
                     if ($isLoggedIn) {
                         $stmt_user_like = $conn->prepare("SELECT 1 FROM reactions WHERE user_id = ? AND publication_id = ? AND type = 'Like'");
@@ -152,11 +185,18 @@ $publications = $stmt->get_result();
                             <img src="<?php echo $userImage; ?>" class="profile-pic" alt="Perfil">
                             <span class="username"><?php echo htmlspecialchars($post["username"]); ?></span>
                             <span class="post-date"><?php echo date("d/m/Y H:i", strtotime($post["publication_date"])); ?></span>
+                            <?php if ($isLoggedIn && $post['user_id'] == $_SESSION['user_id']): ?>
+                                <form method="POST" action="" class="delete-form">
+                                    <input type="hidden" name="delete_post_id" value="<?php echo $post["id"]; ?>">
+                                    <button type="submit" class="delete-btn">❌</button>
+                                </form>
+                            <?php endif; ?> 
                         </div>
                         <div class="post-content">
                             <?php if ($postImage): ?>
                                 <img src="<?php echo $postImage; ?>" class="post-image" alt="Publicación">
                             <?php endif; ?>
+                            <p><?php echo nl2br(htmlspecialchars($post["text_description"])); ?></p>
                             <div class="reactions-container">
                                 <form method="POST" action="">
                                     <input type="hidden" name="like_post_id" value="<?php echo $post["id"]; ?>">
@@ -164,20 +204,70 @@ $publications = $stmt->get_result();
                                         ❤️ <?php echo $like_count; ?>
                                     </button>
                                 </form>
-                                <button>🗯 0</button>
+                                <button onclick="toggleCommentInput(<?php echo $post['id']; ?>)">🗯 <?php echo $comment_count; ?></button>
                             </div>
-                            <p><?php echo nl2br(htmlspecialchars($post["text_description"])); ?></p>
+
+                            <div class="comments-section">
+                                <?php 
+                                    $stmt_comments = $conn->prepare("
+                                        SELECT comments.*, users.username, users.profile_image 
+                                        FROM comments 
+                                        JOIN users ON comments.user_id = users.id 
+                                        WHERE comments.publication_id = ? 
+                                        ORDER BY comments.comment_date ASC
+                                    ");
+                                    $stmt_comments->bind_param("i", $post["id"]);
+                                    $stmt_comments->execute();
+                                    $comments = $stmt_comments->get_result();
+                                ?>
+                                <?php while ($comment = $comments->fetch_assoc()): ?>
+                                    <div class="comment">
+    <div class="comment-header">
+        <img src="<?php echo !empty($comment['profile_image']) ? htmlspecialchars($comment['profile_image']) : './uploads/default.png'; ?>" class="profile-pic" alt="Perfil">
+        
+        <div class="comment-details">
+            <span class="comment-username"><?php echo htmlspecialchars($comment["username"]); ?></span>
+            <span class="comment-date"><?php echo date("d/m/Y H:i", strtotime($comment["comment_date"])); ?></span>
+        </div>
+    </div>
+
+    <div class="comment-text">
+        <p><?php echo nl2br(htmlspecialchars($comment["comment_text"])); ?></p>
+    </div>
+</div>
+
+                                <?php endwhile; ?>
+                            </div>
+
+                            <div id="comment-input-<?php echo $post['id']; ?>" class="comment-input-container" style="display: none;">
+                                <form method="POST" action="" class="comment-form">
+                                    <input type="hidden" name="comment_post_id" value="<?php echo $post['id']; ?>">
+                                    <textarea class="comment-input" name="comment_text" placeholder="Write a comment..." required></textarea>
+                                    <button type="submit" name="submit_comment" class="comment-btn">Post</button>
+                                </form>
+                            </div>   
                         </div>
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p>No hay publicaciones aún.</p>
+                <p>There are no posts yet.</p>
             <?php endif; ?>
         </div>
 
         <a href="./create-publication.php" class="create-post-btn">+</a>
     </main>
-</body>
 
-<script src="./../js/header.js"></script>
+    <script src="./../js/header.js"></script>
+    <script>
+    function toggleCommentInput(postId) {
+        var commentBox = document.getElementById("comment-input-" + postId);
+        if (commentBox.style.display === "none" || commentBox.style.display === "") {
+            commentBox.style.display = "block";
+        } else {
+            commentBox.style.display = "none";
+        }
+    }
+</script>
+
+</body>
 </html>

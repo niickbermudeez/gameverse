@@ -21,7 +21,6 @@ $stmt_countries = $conn->prepare($sql_countries);
 $stmt_countries->execute();
 $countries_result = $stmt_countries->get_result();
 
-// Array para almacenar errores
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -89,10 +88,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <main>
         <div class="logo">
-            <img src="./../img/logo.png" alt="logo" class="logo-img">
+            <img src="./../img/logo.png" alt="logo">
         </div>
         <section class="profile-form-container">
-            <h1>Editar Perfil</h1>
+            <h1>Editar Profile</h1>
 
             <?php if (!empty($user["profile_image"])): ?>
                 <div class="profile-preview-container">
@@ -101,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <?php if (isset($_GET['success'])): ?>
-                <p class="success-message">Perfil actualizado correctamente.</p>
+                <p class="success-message">Profile updated successfully.</p>
             <?php endif; ?>
 
             <?php if (isset($errors['update'])): ?>
@@ -110,21 +109,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form action="profile.php" method="POST" enctype="multipart/form-data" class="profile-form">
                 <div class="input-group">
-                    <label>Nombre de usuario</label>
+                    <label>Username</label>
                     <input type="text" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
                     <?php if (isset($errors['username'])): ?>
                         <div class="error-message"><?php echo htmlspecialchars($errors['username']); ?></div>
                     <?php endif; ?>
                 </div>
                 <div class="input-group">
-                    <label>Biografía</label>
+                    <label>Biography</label>
                     <textarea name="bio"><?php echo htmlspecialchars($user['bio']); ?></textarea>
                     <?php if (isset($errors['bio'])): ?>
                         <div class="error-message"><?php echo htmlspecialchars($errors['bio']); ?></div>
                     <?php endif; ?>
                 </div>
                 <div class="input-group">
-                    <label>País</label>
+                    <label>Country</label>
                     <select name="country" required>
                         <?php while ($country = $countries_result->fetch_assoc()): ?>
                             <option value="<?php echo $country['id']; ?>" <?php echo ($user['country_id'] == $country['id']) ? 'selected' : ''; ?>>
@@ -137,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php endif; ?>
                 </div>
                 <div class="input-group">
-                    <label>Fecha de nacimiento</label>
+                    <label>Date of birth</label>
                     <?php
                         $value_birth_date = isset($user['birth_date']) ? date('Y-m-d', strtotime($user['birth_date'])) : '';
                     ?>
@@ -147,15 +146,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php endif; ?>
                 </div>
                 <div class="input-group">
-                    <label>Imagen de perfil</label>
+                    <label>Profile picture</label>
                     <input type="file" name="profile_image">
                     <?php if (isset($errors['profile_image'])): ?>
                         <div class="error-message"><?php echo htmlspecialchars($errors['profile_image']); ?></div>
                     <?php endif; ?>
                 </div>
-                <button type="submit">Guardar cambios</button>
+                <button type="submit">Save changes</button>
                 <p class="back-home">
-                    <a href="./../index.php">Volver a inicio</a>
+                    <a href="./../index.php">Return to home</a>
                 </p>
             </form>
         </section>
