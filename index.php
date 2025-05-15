@@ -1,36 +1,65 @@
 <?php
-session_start();
-require './php/config.php';
+    session_start();
+    require './php/config.php';
 
-$isLoggedIn = isset($_SESSION["user_id"]);
-$username = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-$profileImage = "./uploads/default.png"; 
+    $isLoggedIn   = isset($_SESSION["user_id"]);
+    $username     = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
+    $profileImage = "./uploads/default.png";
 
-if ($isLoggedIn) {
-    $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
-    $stmt->bind_param("i", $_SESSION["user_id"]);
+    if ($isLoggedIn) {
+        $stmt = $conn->prepare("SELECT profile_image FROM users WHERE id = ?");
+        $stmt->bind_param("i", $_SESSION["user_id"]);
+        $stmt->execute();
+        $result   = $stmt->get_result();
+        $userData = $result->fetch_assoc();
+
+        if (! empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
+            $profileImage = "./uploads/" . basename($userData["profile_image"]);
+        }
+    }
+
+    if (isset($_GET['logout'])) {
+        session_unset();
+        session_destroy();
+        header('Location: index.php');
+        exit();
+    }
+
+    if (! $isLoggedIn) {
+        header("Location: ./php/login.php");
+        exit();
+    }
+
+    // Cargar categorías
+    $categories = [];
+    $catStmt    = $conn->prepare("SELECT id, name FROM categories");
+    $catStmt->execute();
+    $catResult = $catStmt->get_result();
+    while ($row = $catResult->fetch_assoc()) {
+        $categories[] = $row;
+    }
+
+    $categoryFilter = isset($_GET['category']) ? intval($_GET['category']) : null;
+
+    // Cargar juegos
+    $games = [];
+    if ($categoryFilter) {
+        $stmt = $conn->prepare("SELECT g.name, g.url, g.image_url, c.name AS category_name
+                            FROM games g
+                            LEFT JOIN categories c ON g.category_id = c.id
+                            WHERE g.category_id = ?");
+        $stmt->bind_param("i", $categoryFilter);
+    } else {
+        $stmt = $conn->prepare("SELECT g.name, g.url, g.image_url, c.name AS category_name
+                            FROM games g
+                            LEFT JOIN categories c ON g.category_id = c.id");
+    }
     $stmt->execute();
     $result = $stmt->get_result();
-    $userData = $result->fetch_assoc();
-    
-    if (!empty($userData["profile_image"]) && file_exists(__DIR__ . "/uploads/" . basename($userData["profile_image"]))) {
-        $profileImage = "./uploads/" . basename($userData["profile_image"]); 
+    while ($row = $result->fetch_assoc()) {
+        $games[] = $row;
     }
-}
-
-if (isset($_GET['logout'])) {
-    session_unset();
-    session_destroy();
-    header('Location: index.php');
-    exit();
-}
-
-if (!$isLoggedIn) {
-    header("Location: ./php/login.php");
-    exit();
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -41,23 +70,22 @@ if (!$isLoggedIn) {
     <link rel="icon" type="image/x-icon" href="./img/GV.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
-<body>  
+<body>
     <header>
         <nav>
             <div class="logo">
                 <img src="./img/logo.png" alt="logo" class="logo-img">
             </div>
-            <form class="search-bar" action="#" method="GET">
-                <input type="text" name="query" placeholder="Search..." aria-label="Search">
-                <button type="submit">🔍</button>
-            </form>
+            <div class="nav-spacer"></div>
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
-                    <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                    <a href="./php/profile.php">Profile</a>
-                    <a href="./php/community.php">Community</a>
-                    <a href="?logout=true">Logout</a>
+                    <div class="nav-right">
+                        <a href="./php/profile.php">Profile</a>
+                        <a href="./php/community.php">Community</a>
+                        <a href="?logout=true">Logout</a>
+                        <div class="welcome-message">Welcome,<?php echo $username; ?>!</div>
+                        <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
+                    </div>
                 <?php else: ?>
                     <a href="./php/register.php">Register</a>
                     <a href="./php/login.php">Login</a>
@@ -67,51 +95,44 @@ if (!$isLoggedIn) {
         </nav>
     </header>
 
-    <div class="mobile-menu">
-        <?php if ($isLoggedIn): ?>
-            <div class="mobile-menu-header">
-                <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-            </div>
-            <a href="./php/profile.php">Perfil</a>
-            <a href="./php/community.php">Community</a>
-            <a href="?logout=true">Logout</a>
-        <?php else: ?>
-            <a href="./php/register.php">Register</a>
-            <a href="./php/login.php">Login</a>
-        <?php endif; ?>
-    </div>
+    <main>
+    <form method="GET" class="filter-container">
+        <label for="category">Filtrar por categoría:</label>
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="">Todas</option>
+            <?php foreach ($categories as $category): ?>
+                <option value="<?php echo $category['id']; ?>"<?php echo($categoryFilter === $category['id']) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($category['name']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+
+
+
 
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="./img/portadaDodgeTheCreeps.png" alt="Travis">
-                <div class="title"><span>Dodge the Creeps</span></div>
-                <button class="play-button" onclick="cargarJuego('../juegos/DodgeTheCreeps/DodgeTheCreeps.html', 'Dodge the Creeps')">▶ Play</button>
-            </div>
-            <div class="swiper-slide" >
-                <img src="./img/travis2.jpg" alt="Scott">
-                <div class="title"><span>Wrap It Up</span></div>
-                <button class="play-button" onclick="cargarJuego('../juegos/WrapItUp/WrapItUp.html', 'Wrap It Up')">▶ Play</button>
-            </div>
-            <div class="swiper-slide">
-                <img src="./img/DOOM.jpg" alt="Imagen 3">
-                <div class="title"><span>DOOM</span></div>
-                <button class="play-button" onclick="cargarJuego('../juegos/DOOM/DOOM.html', 'DOOM')">▶ Play</button>
-            </div>
-            <div class="swiper-slide">
-                <img src="./img/travis2.jpg" alt="Imagen 4">
-                <div class="title"><span>Imagen 4</span></div>
-                <button class="play-button" onclick="cargarJuego('../juegos/TheLastBastion/The Last Bastion.html','The Last Bastion')">▶ Play</button>
-            </div>
-            <div class="swiper-slide">
-                <img src="./img/travis.jpg" alt="Imagen 5">
-                <div class="title"><span>Imagen 5</span></div>
-                <button class="play-button" onclick="cargarJuego('./index.html', 'Imagen 5')">▶ Play</button>
-            </div>
+            <?php foreach ($games as $game): ?>
+                <div class="swiper-slide">
+                    <img src="<?php echo htmlspecialchars($game['image_url']); ?>" alt="<?php echo htmlspecialchars($game['name']); ?>">
+                    <div class="title"><span><?php echo htmlspecialchars($game['name']); ?></span></div>
+                    <button class="play-button" onclick="cargarJuego('<?php echo htmlspecialchars($game['url']); ?>', '<?php echo htmlspecialchars($game['name']); ?>')">▶ Play</button>
+                </div>
+            <?php endforeach; ?>
         </div>
         <div class="swiper-pagination"></div>
     </div>
+
+
+</main>
+
+<footer>
+    <div class="footer-content">
+        <p>&copy;<?php echo date("Y"); ?> Gameverse. Todos los derechos reservados.</p>
+        <p>Desarrollado por tu equipo de confianza.</p>
+    </div>
+</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="./js/main.js" defer></script>
@@ -122,7 +143,7 @@ if (!$isLoggedIn) {
             // Guardar en localStorage
             localStorage.setItem('gameUrl', url);
             localStorage.setItem('gameName', nombre);
-        
+
             // Redirigir a la otra página
             window.location.href = 'prueba.html';
         }
