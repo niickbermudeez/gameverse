@@ -71,6 +71,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
+    <div class="page-wrapper">
+
     <header>
         <nav>
             <div class="logo">
@@ -96,6 +98,7 @@
     </header>
 
     <main>
+<div>
     <form method="GET" class="filter-container">
         <label for="category">Filtrar por categoría:</label>
         <select name="category" id="category" onchange="this.form.submit()">
@@ -107,9 +110,7 @@
             <?php endforeach; ?>
         </select>
     </form>
-
-
-
+</div>
 
     <div class="swiper-container">
         <div class="swiper-wrapper">
@@ -148,7 +149,7 @@
             window.location.href = 'prueba.html';
         }
     </script>
-
+</div>
 </body>
 <script src="./js/header.js"></script>
 </html>
