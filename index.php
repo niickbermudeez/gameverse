@@ -84,6 +84,7 @@
                     <div class="nav-right">
                         <a href="./php/profile.php">Profile</a>
                         <a href="./php/community.php">Community</a>
+                        <a href="./php/about_us.php">About Us</a>
                         <a href="?logout=true">Logout</a>
                         <div class="welcome-message">Welcome,<?php echo $username; ?>!</div>
                         <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
