@@ -149,6 +149,26 @@
             window.location.href = 'prueba.html';
         }
     </script>
+
+    <script>
+    let lastScrollTop = 0;
+    const header = document.querySelector("header");
+
+    window.addEventListener("scroll", () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down
+            header.style.top = "-80px"; // Ajusta si tu header es más alto
+        } else {
+            // Scrolling up
+            header.style.top = "0";
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Evita valores negativos
+    });
+</script>
+
 </div>
 </body>
 <script src="./js/header.js"></script>

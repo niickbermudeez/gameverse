@@ -13,14 +13,24 @@
     min-height: 100vh;
 }
 
+html{
+    height: 100%;
+}
+
 header {
     flex: 0 0 10vh;
 }
 
+body {
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+}
+
 main {
     flex: 1 0 80vh;
-    overflow-y: auto;
-    overflow-x: hidden;
     display: flex;
     justify-content: center; /* centra horizontalmente */
     align-items: center;     /* centra verticalmente */
@@ -42,13 +52,7 @@ header {
     z-index: 1000;
 }
 
-body {
-    background: radial-gradient(circle, #1B1E56, #0D0D2B);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
-    font-family: 'Quicksand', sans-serif;
-}
+
 
 nav {
     width: 100%;
@@ -357,4 +361,26 @@ iframe {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     max-width: 90vw;
     max-height: 75vh;
+}
+
+
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 10px;               /* ancho vertical */
+  height: 10px;              /* alto horizontal */
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1123;       /* color del fondo del track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff0080, #7928ca); /* gradiente Gameverse */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff66a5, #9b4dff); /* más claro al pasar el ratón */
 }
