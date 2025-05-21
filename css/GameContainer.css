@@ -1,11 +1,58 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+/* general */
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle, #1B1E56, #0D0D2B);
-    color: #E5E5E5;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* CSS del header */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+}
+
+main {
+    flex: 1 0 80vh;
+    display: flex;
+    justify-content: center; /* centra horizontalmente */
+    align-items: center;     /* centra verticalmente */
+    flex-direction: column;  /* opcional, si tu contenido está en columna */
+    text-align: center; 
+}
+
+
+body {
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+}
+
+main {
+    flex: 1 0 80vh;
+    display: flex;
+    justify-content: center; /* centra horizontalmente */
+    align-items: center;     /* centra verticalmente */
+    flex-direction: column;  /* opcional, si tu contenido está en columna */
+    text-align: center; 
+}
+
+/* header y nav */
 header {
     flex: 0 0 10vh;
     background-color: rgba(0, 0, 0, 0.8);
@@ -143,62 +190,16 @@ nav {
         margin-right: 0.625rem;
     }
 }
-/* Fin CSS del header */
 
-.create-publication-form {
-    margin: 10% auto;
-    padding: 2rem;
-    background-color: #00022f;
-    border-radius: 8px;
-    width: 75%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
-    @media (max-width: 768px){
-        margin-top: 50%;
-    }
+
+iframe {
+    border: 3px solid #4361EE;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 90vw;
+    max-height: 75vh;
 }
 
-.create-publication-form textarea {
-    width: 90%;
-    padding: 1rem;
-    border-radius: 5px;
-    border: none;
-    resize: vertical;
-    font-size: 1rem;
-    color: #333;
-    margin: 20px auto;
-}
 
-.create-publication-form input[type="file"] {
-    display: block;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-}
 
-.create-publication-form button {
-    background-color: #F72585;
-    border: none;
-    padding: 1rem;
-    width: 100%;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.create-publication-form button:hover {
-    background-color: #4361EE;
-}
-
-.profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}

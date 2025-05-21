@@ -17,9 +17,7 @@ html{
     height: 100%;
 }
 
-header {
-    flex: 0 0 10vh;
-}
+
 
 body {
     background: radial-gradient(circle, #1B1E56, #0D0D2B);
@@ -40,9 +38,10 @@ main {
 
 /* header y nav */
 header {
+    flex: 0 0 10vh;
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
-    height: 4.375rem; /* 70px */
+    height: 4.375rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,8 +49,19 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    backdrop-filter: blur(8px);
+    transition: transform 0.4s ease-in-out;
+}
+/* Animación para ocultar y mostrar el header */
+header.hide-header {
+    transform: translateY(-100%);
+    transition: transform 0.4s ease-in-out;
 }
 
+header.show-header {
+    transform: translateY(0);
+    transition: transform 0.4s ease-in-out;
+}
 
 
 nav {
@@ -267,11 +277,12 @@ nav {
     padding: 15px;
     color: white;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     font-weight: 600;
     border-radius: 0 0 14px 14px;
     z-index: 2;
 }
+
 
 .play-button {
     width: 100%;
@@ -288,10 +299,11 @@ nav {
     transform: translateY(20px); 
     opacity: 0;
     visibility: hidden;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     position: relative;
     z-index: 3;
 }
+
 
 .swiper-slide.active .title {
     transform: translateY(-40px);
@@ -353,16 +365,6 @@ footer {
     align-items: center;
     text-align: center;
 }
-
-
-iframe {
-    border: 3px solid #4361EE;
-    border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    max-width: 90vw;
-    max-height: 75vh;
-}
-
 
 
 /* scrollbar */

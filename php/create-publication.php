@@ -75,46 +75,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" type="image/x-icon" href="./img/GV.ico">
 </head>
 <body>
-    <header>
+   <header>
         <nav>
             <div class="logo">
-                <img src="./../img/logo.png" alt="logo">
+                <img src="../img/logo.png" alt="logo" class="logo-img">
             </div>
-            <form class="search-bar" action="#" method="GET">
-                <input type="text" name="query" placeholder="Search..." aria-label="Search">
-                <button type="submit">🔍</button>
-            </form>
+            <div class="nav-spacer"></div>
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
-                    <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                    <a href="./profile.php">Perfil</a>
-                    <a href="./../index.php">Home</a>
-                    <a href="?logout=true">Logout</a>
+                    <div class="nav-right">
+                        <a href="./profile.php">Profile</a>
+                        <a href="./community.php">Community</a>
+                        <a href="./about_us.php">About Us</a>
+                        <a href="?logout=true">Logout</a>
+                        <div class="welcome-message">Welcome,<?php echo $username; ?>!</div>
+                        <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
+                    </div>
                 <?php else: ?>
                     <a href="./php/register.php">Register</a>
                     <a href="./php/login.php">Login</a>
                 <?php endif; ?>
             </div>
-            <img src="./../img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
+            <img src="./img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
         </nav>
     </header>
-
-    <div class="mobile-menu">
-        <?php if ($isLoggedIn): ?>
-            <div class="mobile-menu-header">
-                <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-            </div>
-            <a href="./profile.php">Perfil</a>
-            <a href="./../index.php">Home</a>
-            <a href="?logout=true">Logout</a>
-        <?php else: ?>
-            <a href="./php/register.php">Register</a>
-            <a href="./php/login.php">Login</a>
-        <?php endif; ?>
-    </div>
-
     <main>
         <form action="create-publication.php" method="POST" enctype="multipart/form-data" class="create-publication-form">
             <textarea name="text_description" placeholder="Describe your publication..." required></textarea>

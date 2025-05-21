@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     playButtons.forEach((button) => {
         button.addEventListener("click", function (event) {
             event.stopPropagation(); // Evita que el clic en el botón afecte la tarjeta
-            window.location.href = "./web/consolitaJuegos.html"; // Cambia la URL a la que quieras redirigir
+            window.location.href = "./web/consolitaJuegos.php"; // Cambia la URL a la que quieras redirigir
         });
     });
 });

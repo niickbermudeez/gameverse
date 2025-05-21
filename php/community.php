@@ -113,42 +113,27 @@ $publications = $stmt->get_result();
     <header>
         <nav>
             <div class="logo">
-                <img src="./../img/logo.png" alt="logo">
+                <img src="../img/logo.png" alt="logo" class="logo-img">
             </div>
-            <form class="search-bar" action="#" method="GET">
-                <input type="text" name="query" placeholder="Search..." aria-label="Search">
-                <button type="submit">🔍</button>
-            </form>
+            <div class="nav-spacer"></div>
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
-                    <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-                    <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                    <a href="./profile.php">Perfil</a>
-                    <a href="./../index.php">Home</a>
-                    <a href="?logout=true">Logout</a>
+                    <div class="nav-right">
+                        <a href="./profile.php">Profile</a>
+                        <a href="./community.php">Community</a>
+                        <a href="./about_us.php">About Us</a>
+                        <a href="?logout=true">Logout</a>
+                        <div class="welcome-message">Welcome,<?php echo $username; ?>!</div>
+                        <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
+                    </div>
                 <?php else: ?>
                     <a href="./php/register.php">Register</a>
                     <a href="./php/login.php">Login</a>
                 <?php endif; ?>
             </div>
-            <img src="./../img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
+            <img src="../img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
         </nav>
     </header>
-
-    <div class="mobile-menu">
-        <?php if ($isLoggedIn): ?>
-            <div class="mobile-menu-header">
-                <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
-            </div>
-            <a href="./profile.php">Profile</a>
-            <a href="./../index.php">Home</a>
-            <a href="?logout=true">Logout</a>
-        <?php else: ?>
-            <a href="./php/register.php">Register</a>
-            <a href="./php/login.php">Login</a>
-        <?php endif; ?>
-    </div>
 
     <main>
         <h2>COMMUNITY</h2>
@@ -267,6 +252,37 @@ $publications = $stmt->get_result();
             commentBox.style.display = "none";
         }
     }
+
+    
+</script>
+<script>
+    const header = document.querySelector("header");
+    let lastScroll = 0;
+    const scrollThreshold = 10; // sensibilidad
+
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+        // No hacer nada si el scroll es muy pequeño
+        if (Math.abs(currentScroll - lastScroll) <= scrollThreshold) return;
+
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            // Scroll hacia abajo y pasamos cierto umbral
+            header.classList.remove("show-header");
+            header.classList.add("hide-header");
+        } else if (currentScroll < lastScroll) {
+            // Scroll hacia arriba
+            header.classList.remove("hide-header");
+            header.classList.add("show-header");
+        }
+
+        lastScroll = currentScroll;
+    });
+
+    // Mostrar el header al cargar la página
+    window.addEventListener("DOMContentLoaded", () => {
+        header.classList.add("show-header");
+    });
 </script>
 
 </body>

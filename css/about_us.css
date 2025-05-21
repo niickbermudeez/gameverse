@@ -30,70 +30,153 @@ body {
 }
 
 /* Header & Navigation */
+/* header y nav */
 header {
-    width: 100%;
-    height: 10vh;
+    flex: 0 0 10vh;
     background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    height: 4.375rem;
     display: flex;
     align-items: center;
+    justify-content: center;
+    box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    transition: transform 0.4s ease-in-out;
 }
+/* Animación para ocultar y mostrar el header */
+header.hide-header {
+    transform: translateY(-100%);
+    transition: transform 0.4s ease-in-out;
+}
+
+header.show-header {
+    transform: translateY(0);
+    transition: transform 0.4s ease-in-out;
+}
+
 
 nav {
+    width: 100%;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    padding: 0 1rem;
-    width: 100%;
+    justify-content: space-between;
+
 }
 
-.logo img {
-    height: 40px;
+@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px))) {
+    header {
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+    }
 }
 
 .nav-spacer {
     flex-grow: 1;
 }
 
+.logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    padding-left: 15px;
+    height: 1.5rem; /* 35px */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* .logo-img:hover {
+    transform: scale(1.05);
+} */
+
 .auth-links {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.125rem;
+    margin-left: auto; /* Empuja todo a la derecha */
+    padding-right: 15px;
 }
 
 .auth-links a {
+    color: #fff;
     text-decoration: none;
-    color: #E5E5E5;
-    font-weight: bold;
-    background: #1B1E56;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: background 0.3s ease, color 0.3s ease;
+    font-weight: 500;
+    padding: 0.375rem 0;
+    border-bottom: 0.125rem solid transparent;
+    transition: border-color 0.3s ease;
+    font-size: 1rem;
 }
 
 .auth-links a:hover {
-    background: linear-gradient(90deg, #F72585, #4361EE);
-    color: #ffffff;
+    border-color: #F72585;
 }
 
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.125rem;
 }
 
 .welcome-message {
-    white-space: nowrap;
-    font-size: 0.9rem;
-    color: #C0C0C0;
+    font-size: 0.95rem;
+    color: #ccc;
 }
 
 .profile-pic {
-    width: 42px;
-    height: 42px;
+    width: 2.25rem;
+    height: 2.25rem;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #F72585;
+    border: 0.125rem solid #F72585;
 }
+
+.mobile-menu-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+    display: none;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+/* Responsive styles */
+@media (max-width: 48rem) {
+    header {
+        height: auto;
+        padding: 0.625rem 0;
+    }
+
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .auth-links,
+    .nav-right {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.625rem;
+        margin-top: 0.625rem;
+    }
+
+    .auth-links.active,
+    .nav-right.active {
+        display: flex;
+    }
+
+    .mobile-menu-icon {
+        display: block;
+        align-self: flex-end;
+        margin-right: 0.625rem;
+    }
+}
+
 
 /* Main & Sections */
 main {
@@ -242,4 +325,27 @@ footer {
         flex-direction: column;
         align-items: center;
     }
+}
+
+
+
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 10px;               /* ancho vertical */
+  height: 10px;              /* alto horizontal */
+}
+
+::-webkit-scrollbar-track {
+  background: #0f1123;       /* color del fondo del track */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff0080, #7928ca); /* gradiente Gameverse */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff66a5, #9b4dff); /* más claro al pasar el ratón */
 }

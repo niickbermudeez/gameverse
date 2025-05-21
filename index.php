@@ -98,6 +98,7 @@
         </nav>
     </header>
 
+
     <main>
 <div>
     <form method="GET" class="filter-container">
@@ -152,21 +153,32 @@
     </script>
 
     <script>
-    let lastScrollTop = 0;
     const header = document.querySelector("header");
+    let lastScroll = 0;
+    const scrollThreshold = 10; // sensibilidad
 
     window.addEventListener("scroll", () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-        if (scrollTop > lastScrollTop) {
-            // Scrolling down
-            header.style.top = "-80px"; // Ajusta si tu header es más alto
-        } else {
-            // Scrolling up
-            header.style.top = "0";
+        // No hacer nada si el scroll es muy pequeño
+        if (Math.abs(currentScroll - lastScroll) <= scrollThreshold) return;
+
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            // Scroll hacia abajo y pasamos cierto umbral
+            header.classList.remove("show-header");
+            header.classList.add("hide-header");
+        } else if (currentScroll < lastScroll) {
+            // Scroll hacia arriba
+            header.classList.remove("hide-header");
+            header.classList.add("show-header");
         }
 
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Evita valores negativos
+        lastScroll = currentScroll;
+    });
+
+    // Mostrar el header al cargar la página
+    window.addEventListener("DOMContentLoaded", () => {
+        header.classList.add("show-header");
     });
 </script>
 
