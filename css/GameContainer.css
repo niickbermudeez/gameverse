@@ -1,145 +1,100 @@
+/* Import Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
-/* general */
-* {
+@font-face {
+    font-family: 'GoodDog';
+    src: url(../fonts/good_dog/GOODDP__.TTF) format('truetype');
+}
+
+@font-face {
+    font-family: 'HelveticaNow';
+    src: url(../fonts/helvetica-now-font-family-1727953346-0/helveticanowtext-black-demo.ttf) format('truetype');
+}
+
+/* Reset + General layout */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
 }
 
-.page-wrapper {
+body {
+    width: 100vw;
+    min-height: 100vh;
+    background: radial-gradient(circle, #1B1E56, #0D0D2B);
+    color: #E5E5E5;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
-html{
-    height: 100%;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
 }
 
-body {
-    background: radial-gradient(circle, #1B1E56, #0D0D2B);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
-    font-family: 'Quicksand', sans-serif;
+::-webkit-scrollbar-track {
+    background: #0f1123;
+    border-radius: 10px;
 }
 
-main {
-    flex: 1 0 80vh;
-    display: flex;
-    justify-content: center; /* centra horizontalmente */
-    align-items: center;     /* centra verticalmente */
-    flex-direction: column;  /* opcional, si tu contenido está en columna */
-    text-align: center; 
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ff0080, #7928ca);
+    border-radius: 10px;
 }
 
-
-body {
-    background: radial-gradient(circle, #1B1E56, #0D0D2B);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
-    font-family: 'Quicksand', sans-serif;
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ff66a5, #9b4dff);
 }
 
-main {
-    flex: 1 0 80vh;
-    display: flex;
-    justify-content: center; /* centra horizontalmente */
-    align-items: center;     /* centra verticalmente */
-    flex-direction: column;  /* opcional, si tu contenido está en columna */
-    text-align: center; 
-}
-
-/* header y nav */
-header {
-    flex: 0 0 10vh;
-    background-color: rgba(0, 0, 0, 0.8);
+/* Header & Navigation */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.8) !important;
     color: #fff;
     height: 4.375rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
     backdrop-filter: blur(8px);
     transition: transform 0.4s ease-in-out;
+    border: none;
 }
-/* Animación para ocultar y mostrar el header */
-header.hide-header {
+
+.navbar.hide-header {
     transform: translateY(-100%);
-    transition: transform 0.4s ease-in-out;
 }
 
-header.show-header {
+.navbar.show-header {
     transform: translateY(0);
-    transition: transform 0.4s ease-in-out;
 }
 
-
-nav {
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.nav-spacer {
-    flex-grow: 1;
-}
-
-.logo {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-}
-
-.logo-img {
-    padding-left: 15px;
-    height: 1.5rem; /* 35px */
-    cursor: pointer;
+.navbar-brand img {
+    height: 1.5rem;
     transition: transform 0.3s ease;
 }
 
-/* .logo-img:hover {
-    transform: scale(1.05);
-} */
-
-.auth-links {
-    display: flex;
-    align-items: center;
-    gap: 1.125rem;
-    margin-left: auto; /* Empuja todo a la derecha */
-    padding-right: 15px;
-}
-
-.auth-links a {
-    color: #fff;
-    text-decoration: none;
+.navbar-nav .nav-link {
+    color: #fff !important;
     font-weight: 500;
     padding: 0.375rem 0;
     border-bottom: 0.125rem solid transparent;
     transition: border-color 0.3s ease;
     font-size: 1rem;
+    margin: 0 0.5rem;
 }
 
-.auth-links a:hover {
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
     border-color: #F72585;
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 1.125rem;
+    color: #fff !important;
 }
 
 .welcome-message {
     font-size: 0.95rem;
     color: #ccc;
+    margin-right: 10px;
 }
 
 .profile-pic {
@@ -150,56 +105,275 @@ nav {
     border: 0.125rem solid #F72585;
 }
 
-.mobile-menu-icon {
-    width: 1.875rem;
-    height: 1.875rem;
-    display: none;
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 80px 20px 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+}
+
+.game-container {
+    width: 100%;
+    max-width: 1200px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(247, 37, 133, 0.2);
+}
+
+/* Game Header */
+.game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.back-btn {
+    background: linear-gradient(135deg, #F72585, #4361EE);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    margin-left: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Responsive styles */
-@media (max-width: 48rem) {
-    header {
-        height: auto;
-        padding: 0.625rem 0;
-    }
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(247, 37, 133, 0.4);
+}
 
-    nav {
-        flex-direction: column;
+.game-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #F72585;
+    text-align: center;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Game Wrapper */
+.game-wrapper {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(67, 97, 238, 0.3);
+}
+
+.game-content {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Game iframe */
+#game-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    background: #000;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    color: #F72585;
+}
+
+.loading-spinner i {
+    font-size: 4rem;
+    animation: bounce 2s infinite;
+}
+
+.loading-spinner p {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Error Message */
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #E5E5E5;
+}
+
+.error-message i {
+    font-size: 4rem;
+    color: #F72585;
+    margin-bottom: 20px;
+}
+
+.error-message h3 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #F72585;
+}
+
+.error-message p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+/* Game Controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background: rgba(67, 97, 238, 0.8);
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(67, 97, 238, 0.3);
+}
+
+.control-btn:hover {
+    background: rgba(67, 97, 238, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+/* Footer */
+.footer {
+    background: #0D0D2B;
+    color: #E5E5E5;
+    padding: 40px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer p {
+    margin-bottom: 10px;
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .game-container {
+        padding: 20px;
+    }
+    
+    .game-content {
+        height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 80px 15px 30px 15px;
         align-items: flex-start;
+        padding-top: 90px;
     }
-
-    .auth-links,
-    .nav-right {
-        display: none;
+    
+    .game-header {
         flex-direction: column;
+        text-align: center;
+    }
+    
+    .game-title {
+        font-size: 1.8rem;
+        order: -1;
+    }
+    
+    .game-content {
+        height: 400px;
+    }
+    
+    .game-wrapper {
+        padding: 15px;
+    }
+    
+    .control-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .game-content {
+        height: 350px;
+    }
+    
+    .game-container {
+        padding: 15px;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .control-btn {
         width: 100%;
-        gap: 0.625rem;
-        margin-top: 0.625rem;
-    }
-
-    .auth-links.active,
-    .nav-right.active {
-        display: flex;
-    }
-
-    .mobile-menu-icon {
-        display: block;
-        align-self: flex-end;
-        margin-right: 0.625rem;
+        max-width: 200px;
+        justify-content: center;
     }
 }
-
-
-
-iframe {
-    border: 3px solid #4361EE;
-    border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    max-width: 90vw;
-    max-height: 75vh;
-}
-
-
-

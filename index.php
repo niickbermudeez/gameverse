@@ -66,78 +66,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gameverse</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
     <link rel="stylesheet" href="./css/index.css">
     <link rel="icon" type="image/x-icon" href="./img/GV.ico">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 </head>
 <body>
-    <div class="page-wrapper">
-
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="./img/logo.png" alt="logo" class="logo-img">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top show-header">
+        <div class="container-fluid px-3">
+            <a class="navbar-brand" href="#">
+                <img src="./img/logo.png" alt="Gameverse Logo">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto d-flex align-items-center">
+                    <?php if ($isLoggedIn): ?>
+                        <a class="nav-link active" href="./index.php">
+                            Home
+                        </a>
+                        <a class="nav-link" href="./php/profile.php">
+                            Profile
+                        </a>
+                        <a class="nav-link" href="./php/community.php">
+                            Community
+                        </a>
+                        <a class="nav-link" href="./php/about_us.php">
+                            About Us
+                        </a>
+                        <a class="nav-link" href="?logout=true">
+                            Logout
+                        </a>
+                        <span class="welcome-message ms-3">Welcome, <?php echo $username; ?>!</span>
+                        <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic ms-2" alt="Profile">
+                    <?php else: ?>
+                        <a class="nav-link" href="./php/register.php">Register</a>
+                        <a class="nav-link" href="./php/login.php">Login</a>
+                    <?php endif; ?>
+                </div>
             </div>
-            <div class="nav-spacer"></div>
-            <div class="auth-links">
-                <?php if ($isLoggedIn): ?>
-                    <div class="nav-right">
-                        <a href="./php/../index.php">Home</a>
-                        <a href="./php/profile.php">Profile</a>
-                        <a href="./php/community.php">Community</a>
-                        <a href="./php/about_us.php">About Us</a>
-                        <a href="?logout=true">Logout</a>
-                        <div class="welcome-message">Welcome,<?php echo $username; ?>!</div>
-                        <img src="<?php echo htmlspecialchars($profileImage); ?>" class="profile-pic" alt="Perfil">
-                    </div>
-                <?php else: ?>
-                    <a href="./php/register.php">Register</a>
-                    <a href="./php/login.php">Login</a>
-                <?php endif; ?>
-            </div>
-            <img src="./img/menu.png" class="mobile-menu-icon js-mobileMenu" alt="Menu">
-        </nav>
-    </header>
+        </div>
+    </nav>
 
+    <!-- Category Subnavigation -->
+    <nav class="category-subnav">
+        <div class="container-fluid">
+            <div class="category-nav-wrapper">
+                <div class="category-nav-scroll">
+                    <a href="?category=" class="category-item <?php echo (!$categoryFilter) ? 'active' : ''; ?>">
+                        <i class="fas fa-th-large"></i>
+                        All Games
+                    </a>
+                    <?php foreach ($categories as $category): ?>
+                        <a href="?category=<?php echo $category['id']; ?>" 
+                           class="category-item <?php echo ($categoryFilter === $category['id']) ? 'active' : ''; ?>">
+                            <i class="fas fa-gamepad"></i>
+                            <?php echo htmlspecialchars($category['name']); ?>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <main>
-<div>
-    <form method="GET" class="filter-container">
-        <label for="category">Filtrar por categoría:</label>
-        <select name="category" id="category" onchange="this.form.submit()">
-            <option value="">Todas</option>
-            <?php foreach ($categories as $category): ?>
-                <option value="<?php echo $category['id']; ?>"<?php echo($categoryFilter === $category['id']) ? 'selected' : ''; ?>>
-                    <?php echo htmlspecialchars($category['name']); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </form>
-</div>
-
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <?php foreach ($games as $game): ?>
-                <div class="swiper-slide">
-                    <img src="<?php echo htmlspecialchars($game['image_url']); ?>" alt="<?php echo htmlspecialchars($game['name']); ?>">
-                    <div class="title"><span><?php echo htmlspecialchars($game['name']); ?></span></div>
-                    <button class="play-button" onclick="cargarJuego('<?php echo htmlspecialchars($game['url']); ?>', '<?php echo htmlspecialchars($game['name']); ?>')">▶ Play</button>
-                </div>
-            <?php endforeach; ?>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <?php foreach ($games as $game): ?>
+                    <div class="swiper-slide">
+                        <img src="<?php echo htmlspecialchars($game['image_url']); ?>" alt="<?php echo htmlspecialchars($game['name']); ?>">
+                        <div class="title"><span><?php echo htmlspecialchars($game['name']); ?></span></div>
+                        <button class="play-button" onclick="cargarJuego('<?php echo htmlspecialchars($game['url']); ?>', '<?php echo htmlspecialchars($game['name']); ?>')">▶ Play</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
-        <div class="swiper-pagination"></div>
-    </div>
+    </main>
 
+    <footer>
+        <div class="footer-content">
+            <p>&copy;<?php echo date("Y"); ?> Gameverse. Todos los derechos reservados.</p>
+            <p>Desarrollado por tu equipo de confianza.</p>
+        </div>
+    </footer>
 
-</main>
-
-<footer>
-    <div class="footer-content">
-        <p>&copy;<?php echo date("Y"); ?> Gameverse. Todos los derechos reservados.</p>
-        <p>Desarrollado por tu equipo de confianza.</p>
-    </div>
-</footer>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="./js/main.js" defer></script>
     <script src="./js/CardsFuncionalidad.js"></script>
@@ -154,36 +182,48 @@
     </script>
 
     <script>
-    const header = document.querySelector("header");
-    let lastScroll = 0;
-    const scrollThreshold = 10; // sensibilidad
+        // Header scroll behavior
+        const navbar = document.querySelector(".navbar");
+        const categorySubnav = document.querySelector(".category-subnav");
+        let lastScroll = 0;
+        const scrollThreshold = 10;
 
-    window.addEventListener("scroll", () => {
-        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
-        // No hacer nada si el scroll es muy pequeño
-        if (Math.abs(currentScroll - lastScroll) <= scrollThreshold) return;
+            if (Math.abs(currentScroll - lastScroll) <= scrollThreshold) return;
 
-        if (currentScroll > lastScroll && currentScroll > 100) {
-            // Scroll hacia abajo y pasamos cierto umbral
-            header.classList.remove("show-header");
-            header.classList.add("hide-header");
-        } else if (currentScroll < lastScroll) {
-            // Scroll hacia arriba
-            header.classList.remove("hide-header");
-            header.classList.add("show-header");
-        }
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                navbar.classList.remove("show-header");
+                navbar.classList.add("hide-header");
+                categorySubnav.classList.add("hide-header");
+            } else if (currentScroll < lastScroll) {
+                navbar.classList.remove("hide-header");
+                navbar.classList.add("show-header");
+                categorySubnav.classList.remove("hide-header");
+            }
 
-        lastScroll = currentScroll;
-    });
+            lastScroll = currentScroll;
+        });
 
-    // Mostrar el header al cargar la página
-    window.addEventListener("DOMContentLoaded", () => {
-        header.classList.add("show-header");
-    });
-</script>
+        // Show header on page load
+        window.addEventListener("DOMContentLoaded", () => {
+            navbar.classList.add("show-header");
+        });
 
-</div>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
-<script src="./js/header.js"></script>
 </html>
