@@ -268,9 +268,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         function removeImage() {
             fileInput.value = '';
             filePreview.innerHTML = '';
-            fileLabel.innerHTML = '<i class="fas fa-cloud-upload-alt me-2"></i>Choose an image or drag & drop here';
+            fileLabel.innerHTML = '<i class="bi bi-cloud-upload"></i> Choose an image or drag & drop here';
             fileLabel.classList.remove('file-selected');
-        }
+        } 
 
         // Drag and drop functionality
         const fileUploadWrapper = document.querySelector('.file-upload-wrapper');
