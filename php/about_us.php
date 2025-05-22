@@ -419,6 +419,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto d-flex align-items-center">
                     <?php if ($isLoggedIn): ?>
+                        <a class="nav-link" href="./../index.php">
+                            Home
+                        </a>
                         <a class="nav-link" href="./profile.php">
                             Profile
                         </a>

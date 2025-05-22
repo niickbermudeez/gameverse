@@ -119,6 +119,7 @@ $publications = $stmt->get_result();
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
                     <div class="nav-right">
+                        <a href="./../index.php">Home</a>
                         <a href="./profile.php">Profile</a>
                         <a href="./community.php">Community</a>
                         <a href="./about_us.php">About Us</a>
