@@ -48,6 +48,7 @@
             <div class="auth-links">
                 <?php if ($isLoggedIn): ?>
                     <div class="nav-right">
+                        <a href=".././index.php">Home</a>
                         <a href=".././php/profile.php">Profile</a>
                         <a href=".././php/community.php">Community</a>
                         <a href=".././php/about_us.php">About Us</a>
