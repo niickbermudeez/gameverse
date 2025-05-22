@@ -175,19 +175,19 @@
                         <div class="tech-name">PHP</div>
                     </div>
                     <div class="tech-item">
-                        <img src="./../img/html_logo.png" alt="HTML" class="tech-img">
+                        <img src="./../img/logo_html.webp" alt="HTML" class="tech-img">
                         <div class="tech-name">HTML5</div>
                     </div>
                     <div class="tech-item">
-                        <img src="./../img/css_logo.png" alt="CSS" class="tech-img">
+                        <img src="./../img/logo_css.png" alt="CSS" class="tech-img">
                         <div class="tech-name">CSS3</div>
                     </div>
                     <div class="tech-item">
-                        <img src="./../img/js_logo.png" alt="JavaScript" class="tech-img">
+                        <img src="./../img/logo_js.png" alt="JavaScript" class="tech-img">
                         <div class="tech-name">JavaScript</div>
                     </div>
                     <div class="tech-item">
-                        <img src="./../img/mysql_logo.png" alt="MySQL" class="tech-img">
+                        <img src="./../img/logo_mysql.png" alt="MySQL" class="tech-img">
                         <div class="tech-name">MySQL</div>
                     </div>
                     <div class="tech-item">
