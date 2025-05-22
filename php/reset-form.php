@@ -50,7 +50,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set New Password - Gameverse</title>
-    <link rel="stylesheet" href="./../css/new_password.css">
+    <link rel="stylesheet" href="./../css/new-password.css">
 </head>
 <body>
     <div class="password-reset-container">
