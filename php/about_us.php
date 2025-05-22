@@ -144,7 +144,7 @@
                             <img src="./../img/Travis-Scott-3.jpg" alt="Nick Bermúdez" class="member-img mx-auto">
                             <h3 class="member-name">Nick Bermúdez</h3>
                             <p class="member-role">
-                                <i class="fas fa-server me-2"></i>
+                                <i class="bi bi-database"></i>
                                 <strong>Backend Developer</strong><br>
                                 Encargado de la arquitectura del servidor, base de datos y seguridad.
                             </p>
@@ -155,7 +155,7 @@
                             <img src="./../img/Travis-Scott-3.jpg" alt="Miguel Euceda" class="member-img mx-auto">
                             <h3 class="member-name">Miguel Euceda</h3>
                             <p class="member-role">
-                                <i class="fas fa-paint-brush me-2"></i>
+                                <i class="bi bi-brush"></i>
                                 <strong>Frontend Developer</strong><br>
                                 Diseño e implementación de la interfaz de usuario y experiencia UX/UI.
                             </p>
