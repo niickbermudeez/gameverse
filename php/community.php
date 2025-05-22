@@ -281,7 +281,7 @@ $publications = $stmt->get_result();
                                             <div class="input-group">
                                                 <textarea class="form-control comment-input" name="comment_text" placeholder="Write a comment..." required rows="2"></textarea>
                                                 <button type="submit" name="submit_comment" class="btn comment-submit-btn">
-                                                    <i class="fas fa-paper-plane"></i>
+                                                    <i class="bi bi-send"></i>
                                                 </button>
                                             </div>
                                         </form>
