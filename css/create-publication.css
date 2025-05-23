@@ -418,3 +418,7 @@ body {
         font-size: 0.9rem;
     }
 } 
+
+.form-group select {
+    margin-bottom: 20px; /* Puedes ajustar el valor a lo que prefieras */
+}
