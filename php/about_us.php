@@ -141,7 +141,7 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="card member-card">
-                            <img src="./../img/Travis-Scott-3.jpg" alt="Nick Bermúdez" class="member-img mx-auto">
+                            <img src="./../img/nick.png" alt="Nick Bermúdez" class="member-img mx-auto">
                             <h3 class="member-name">Nick Bermúdez</h3>
                             <p class="member-role">
                                 <i class="bi bi-database"></i>
@@ -152,7 +152,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card member-card">
-                            <img src="./../img/Travis-Scott-3.jpg" alt="Miguel Euceda" class="member-img mx-auto">
+                            <img src="./../img/miguel.jpg" alt="Miguel Euceda" class="member-img mx-auto">
                             <h3 class="member-name">Miguel Euceda</h3>
                             <p class="member-role">
                                 <i class="bi bi-brush"></i>
@@ -191,7 +191,7 @@
                         <div class="tech-name">MySQL</div>
                     </div>
                     <div class="tech-item">
-                        <img src="./../img/github_logo.png" alt="GitHub" class="tech-img">
+                        <img src="./../img/githublogo.png" alt="GitHub" class="tech-img">
                         <div class="tech-name">GitHub</div>
                     </div>
                     <div class="tech-item">

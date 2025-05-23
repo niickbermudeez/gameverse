@@ -304,7 +304,7 @@ $publications = $stmt->get_result();
                         <?php endwhile; ?>
                     <?php else: ?>
                         <div class="no-posts">
-                            <i class="fas fa-comments fa-3x mb-3"></i>
+                            <i class="bi bi-mailbox"></i>
                             <h3>No posts yet</h3>
                             <p>Be the first to share something with the community!</p>
                         </div>

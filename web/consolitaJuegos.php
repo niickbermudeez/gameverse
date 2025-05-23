@@ -65,13 +65,13 @@
                         <a class="nav-link" href="./../index.php">
                             Home
                         </a>
-                        <a class="nav-link" href="./php/profile.php">
+                        <a class="nav-link" href="./../php/profile.php">
                             Profile
                         </a>
-                        <a class="nav-link" href="./php/community.php">
+                        <a class="nav-link" href="./../php/community.php">
                             Community
                         </a>
-                        <a class="nav-link" href="./php/about_us.php">
+                        <a class="nav-link" href="./../php/about_us.php">
                             About Us
                         </a>
                         <a class="nav-link" href="?logout=true">

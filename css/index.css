@@ -139,6 +139,7 @@ body {
 .category-nav-wrapper {
     overflow-x: auto;
     overflow-y: hidden;
+    padding-top: 10px;
 }
 
 .category-nav-scroll {

@@ -29,7 +29,7 @@
         header("Location: ./php/login.php");
         exit();
     }
-
+    
     // Cargar categorías
     $categories = [];
     $catStmt    = $conn->prepare("SELECT id, name FROM categories");
@@ -126,13 +126,12 @@
             <div class="category-nav-wrapper">
                 <div class="category-nav-scroll">
                     <a href="?category=" class="category-item <?php echo (!$categoryFilter) ? 'active' : ''; ?>">
-                        <i class="fas fa-th-large"></i>
                         All Games
                     </a>
                     <?php foreach ($categories as $category): ?>
                         <a href="?category=<?php echo $category['id']; ?>" 
-                           class="category-item <?php echo ($categoryFilter === $category['id']) ? 'active' : ''; ?>">
-                            <i class="fas fa-gamepad"></i>
+                            class="category-item <?php echo ($categoryFilter === $category['id']) ? 'active' : ''; ?>">
+                            
                             <?php echo htmlspecialchars($category['name']); ?>
                         </a>
                     <?php endforeach; ?>
@@ -141,6 +140,7 @@
         </div>
     </nav>
 
+    
     <main>
         <div class="swiper-container">
             <div class="swiper-wrapper">

@@ -174,10 +174,10 @@ if ($result && $result->num_rows > 0) {
                                 <div class="form-group">
                                     <div class="form-group mt-3">
                                 <label for="game_id" class="form-label">
-                                    <i class="bi bi-joystick"></i> Select Game
+                                    <i class="bi bi-joystick"></i>&nbsp;Select Game
                                 </label>
                                 <select name="game_id" id="game_id" class="form-select" required>
-                                    <option value="" disabled selected>Select a game</option>
+                                    <option value="" disabled selected> Select a game</option>
                                     <?php foreach ($games as $game): ?>
                                         <option value="<?php echo $game['id']; ?>">
                                             <?php echo htmlspecialchars($game['name']); ?>
@@ -186,7 +186,7 @@ if ($result && $result->num_rows > 0) {
                                 </select>
                             </div>
                                     <label for="text_description" class="form-label">
-                                        <i class="bi bi-pencil-square"></i> Description
+                                        <i class="bi bi-pencil-square"></i>&nbsp;Description
                                     </label>
                                     <textarea 
                                         name="text_description" 
@@ -200,7 +200,7 @@ if ($result && $result->num_rows > 0) {
 
                                 <div class="form-group">
                                     <label for="image" class="form-label">
-                                        <i class="bi bi-image"></i> Upload Image (Optional)
+                                        <i class="bi bi-image"></i>&nbsp;Upload Image (Optional)
                                     </label>
                                     <div class="file-upload-wrapper">
                                         <input type="file" name="image" id="image" accept="image/*" class="file-input">
