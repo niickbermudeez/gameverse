@@ -53,15 +53,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
+    
+    if (!isset($_POST["game_id"])) 
+    {
+        die("Error: No game selected.");
+    }
 
-    $stmt = $conn->prepare("INSERT INTO publications (user_id, text_description, image) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $userId, $textDescription, $imagePath);
+
+    $gameId = intval($_POST["game_id"]);
+    $stmt = $conn->prepare("INSERT INTO publications (user_id, text_description, image, game_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("issi", $userId, $textDescription, $imagePath, $gameId);
+
     
     if ($stmt->execute()) {
         header("Location: community.php");
         exit();
     } else {
         echo "Error en publicar.";
+    }
+}
+
+$games = [];
+$result = $conn->query("SELECT id, name FROM games ORDER BY name ASC");
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $games[] = $row;
     }
 }
 ?>
@@ -151,9 +167,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     What's on your mind, gamer?
                                 </h3>
                             </div>
+
+
                             
                             <form action="create-publication.php" method="POST" enctype="multipart/form-data" class="publication-form">
                                 <div class="form-group">
+                                    <div class="form-group mt-3">
+                                <label for="game_id" class="form-label">
+                                    <i class="bi bi-joystick"></i> Select Game
+                                </label>
+                                <select name="game_id" id="game_id" class="form-select" required>
+                                    <option value="" disabled selected>Select a game</option>
+                                    <?php foreach ($games as $game): ?>
+                                        <option value="<?php echo $game['id']; ?>">
+                                            <?php echo htmlspecialchars($game['name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                                     <label for="text_description" class="form-label">
                                         <i class="bi bi-pencil-square"></i> Description
                                     </label>
