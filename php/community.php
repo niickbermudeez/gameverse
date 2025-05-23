@@ -95,7 +95,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_comment_id"]))
     exit();
 }
 
-$stmt = $conn->prepare("SELECT publications.*, users.username, users.profile_image FROM publications JOIN users ON publications.user_id = users.id ORDER BY publications.publication_date DESC LIMIT 20");
+$stmt = $conn->prepare("
+    SELECT publications.*, users.username, users.profile_image, games.name AS game_name
+    FROM publications
+    JOIN users ON publications.user_id = users.id
+    LEFT JOIN games ON publications.game_id = games.id
+    ORDER BY publications.publication_date DESC
+    LIMIT 20
+");
+
+
 $stmt->execute();
 $publications = $stmt->get_result();
 ?>
@@ -219,6 +228,10 @@ $publications = $stmt->get_result();
                                     <?php endif; ?> 
                                 </div>
                                 <div class="post-content">
+                                    <?php if (!empty($post["game_name"])): ?>
+                                        <p class="post-game-name"><strong>Game:</strong> <?php echo htmlspecialchars($post["game_name"]); ?></p>
+                                    <?php endif; ?>
+
                                     <?php if ($postImage): ?>
                                         <img src="<?php echo $postImage; ?>" class="post-image" alt="Post Image">
                                     <?php endif; ?>
