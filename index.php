@@ -142,6 +142,11 @@
 
     
     <main>
+    <?php if (empty($games)): ?>
+        <div class="container text-center my-5">
+            <h3>No hay juegos disponibles en esta categoría.</h3>
+        </div>
+    <?php else: ?>
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 <?php foreach ($games as $game): ?>
@@ -154,7 +159,9 @@
             </div>
             <div class="swiper-pagination"></div>
         </div>
-    </main>
+    <?php endif; ?>
+</main>
+
 
     <footer>
         <div class="footer-content">
