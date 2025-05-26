@@ -4,7 +4,7 @@
 
     $isLoggedIn   = isset($_SESSION["user_id"]);
     $username     = $isLoggedIn ? htmlspecialchars($_SESSION["username"]) : null;
-    $profileImage = "./../uploads/default.png";
+    $profileImage = "./../uploads/default.jpg";
 
     $ruta = getcwd();
 
