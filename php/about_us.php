@@ -146,7 +146,7 @@
                             <p class="member-role">
                                 <i class="bi bi-database"></i>
                                 <strong>Backend Developer</strong><br>
-                                Encargado de la arquitectura del servidor, base de datos y seguridad.
+                                Responsible for server architecture, database management, and security.
                             </p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                             <p class="member-role">
                                 <i class="bi bi-brush"></i>
                                 <strong>Frontend Developer</strong><br>
-                                Diseño e implementación de la interfaz de usuario y experiencia UX/UI.
+                                Desing and implementation of the user interface and user experience, including game creation and export.
                             </p>
                         </div>
                     </div>

@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil - Gameverse</title>
+    <title>Edit Profile - Gameverse</title>
     <link rel="stylesheet" href="./../css/profile.css">
     <link rel="shortcut icon" href="./../img/GV.png" type="image/x-icon">
 </head>
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <img src="./../img/logo.png" alt="logo">
         </div>
         <section class="profile-form-container">
-            <h1>Editar Profile</h1>
+            <h1>Edit Profile</h1>
 
             <?php if (!empty($user["profile_image"])): ?>
                 <div class="profile-preview-container">

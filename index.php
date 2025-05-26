@@ -165,10 +165,12 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy;<?php echo date("Y"); ?> Gameverse. Todos los derechos reservados.</p>
-            <p>Desarrollado por tu equipo de confianza.</p>
+            <p>&copy; <?php echo date("Y"); ?> Gameverse. All rights reserved</p>
+                    <p>Share your gaming moments with the world.</p>
         </div>
     </footer>
+
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
